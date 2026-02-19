@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CategoryTabs from "@/components/CategoryTabs";
-import MenuCard from "@/components/MenuCard";
-import QuantityModal from "@/components/QuantityModal";
+import CategoryTabs from "./components/CategoryTabs";
+import MenuCard from "./components/MenuCard";
+import QuantityModal from "./components/QuantityModal";
 
 const categories = [
   { id: "korean", label: "한식" },
