@@ -82,7 +82,7 @@ const OrderComplete = () => {
       setReturnCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(returnRef.current!);
-          navigate("/");
+          navigate("/butcher");
           return 0;
         }
         return prev - 1;
@@ -293,7 +293,7 @@ const OrderComplete = () => {
       </div>
 
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/butcher")}
         className="px-10 py-4 rounded-full border-2 border-primary text-primary font-black text-lg"
       >
         지금 돌아가기
