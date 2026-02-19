@@ -22,7 +22,7 @@ const OrderComplete = () => {
   const [returnCountdown, setReturnCountdown] = useState(5);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const returnRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
+  const [printTrigger, setPrintTrigger] = useState(0);
   // 카드 꽂기 → 10초 카운트다운 후 결제 완료
   useEffect(() => {
     if (step !== "card") return;
@@ -31,6 +31,7 @@ const OrderComplete = () => {
     intervalRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
+          setPrintTrigger((v) => v + 1); // 🔥 추가
           clearInterval(intervalRef.current!);
           setStep("done");
           return 0;
@@ -58,22 +59,22 @@ const OrderComplete = () => {
   //   }, 1000);
   //   return () => clearInterval(returnRef.current!);
   // }, [step, navigate]);
-
+  // 🔥 printTrigger 기준으로 프린트 실행
   useEffect(() => {
-    if (step !== "done") return;
+    if (printTrigger === 0) return;
 
-    // ✅ 영수증 출력
     if (window.AndroidBridge?.printReceipt) {
       try {
         window.AndroidBridge.printReceipt(JSON.stringify(cart));
       } catch (e) {
         console.log("프린트 실패:", e);
       }
-    } else {
-      console.log("AndroidBridge 없음 (웹 테스트 중)");
     }
+  }, [printTrigger]);
 
-    // 🔽 기존 코드 유지
+  useEffect(() => {
+    if (step !== "done") return;
+
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setReturnCountdown(5);
 
@@ -89,7 +90,7 @@ const OrderComplete = () => {
     }, 1000);
 
     return () => clearInterval(returnRef.current!);
-  }, [step, navigate, cart]);
+  }, [step, navigate]);
 
   const handleCancelCard = () => {
     clearInterval(intervalRef.current!);
