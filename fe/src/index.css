@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design system: Kiosk menu app - bright yellow theme */
+
+@layer base {
+  :root {
+    /* Brand yellow */
+    --brand: 47 100% 50%;
+    --brand-foreground: 0 0% 0%;
+
+    --background: 47 100% 50%;
+    --foreground: 0 0% 0%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    /* Active category tab = black pill */
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Inactive category tab = white outline pill */
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 47 80% 75%;
+    --muted-foreground: 0 0% 30%;
+
+    --accent: 199 83% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 47 100% 50%;
+
+    --radius: 9999px;
+
+    /* Image placeholder */
+    --placeholder: 0 0% 83%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
