@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTabs";
 import MenuCard from "../components/MenuCard";
 import QuantityModal from "../components/QuantityModal";
-
+import { ChevronLeft } from "lucide-react";
+import { useLocation } from "react-router-dom";
 const categories = [
   { id: "korean", label: "한식" },
   // { id: "chinese", label: "중식" },
@@ -53,10 +54,10 @@ interface SelectedItem {
 export default function ButcherPage() {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("korean");
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const location = useLocation();
+  const [cart, setCart] = useState<CartItem[]>(location.state?.cart ?? []);
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [modalQty, setModalQty] = useState(1);
-
   const items = menuItems[activeCategory] ?? [];
   const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
 
@@ -97,6 +98,17 @@ export default function ButcherPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col pb-28">
       {/* Header */}
+      <button
+        className="fixed top-4 left-4 z-50 
+             flex-shrink-0 w-8 h-8 
+             flex items-center justify-center 
+             text-foreground disabled:opacity-30"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <ChevronLeft size={36} strokeWidth={10} />
+      </button>
       <header className="pt-10 pb-4 flex flex-col items-center gap-1">
         <div className="flex items-center gap-3">
           <h1 className="text-4xl font-black tracking-tight text-foreground">
@@ -147,7 +159,7 @@ export default function ButcherPage() {
           disabled={totalCount === 0}
           className="flex-1 py-4 rounded-full bg-primary text-primary-foreground font-black text-lg disabled:opacity-40 relative"
         >
-          주문완료
+          장바구니 보기
           {totalCount > 0 && (
             <span className="absolute -top-2 -right-1 bg-accent text-accent-foreground text-xs font-black rounded-full w-6 h-6 flex items-center justify-center">
               {totalCount}

@@ -21,8 +21,8 @@ const MenuCard = ({ name, price, image, count }: MenuCardProps) => {
         )}
       </div>
       <div className="p-3 text-center">
-        <p className="text-sm font-semibold text-card-foreground">{name}</p>
-        <p className="text-sm text-muted-foreground mt-0.5">{price}</p>
+        <p className="text-2xl font-semibold text-card-foreground">{name}</p>
+        <p className="text-2xl text-muted-foreground mt-0.5">{price}</p>
       </div>
     </div>
   );

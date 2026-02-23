@@ -113,9 +113,9 @@ const OrderComplete = () => {
               />
             </svg>
           </div>
-          <h1 className="text-4xl font-black text-foreground">주문 완료!</h1>
+          <h1 className="text-4xl font-black text-foreground">장바구니</h1>
           <p className="text-muted-foreground mt-2 font-semibold">
-            주문이 정상적으로 접수되었습니다.
+            아래 장바구니 메뉴를 확인 후 구매하기 버튼을 선택해주세요.
           </p>
         </div>
 
@@ -127,7 +127,7 @@ const OrderComplete = () => {
               {cart.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between text-sm text-card-foreground"
+                  className="flex justify-between text-1xl text-card-foreground"
                 >
                   <span>
                     {item.name} × {item.quantity}
@@ -148,12 +148,19 @@ const OrderComplete = () => {
             </div>
           </div>
         )}
-
         <button
           onClick={() => setStep("card")}
           className="w-full max-w-sm py-5 rounded-full bg-primary text-primary-foreground font-black text-xl shadow-md"
         >
           구매하기
+        </button>
+        <button
+          onClick={() => {
+            navigate("/butcher", { state: { cart } });
+          }}
+          className="w-full max-w-sm py-5 rounded-full border-2 border-primary text-primary font-black text-xl shadow-md"
+        >
+          취소
         </button>
       </div>
     );
