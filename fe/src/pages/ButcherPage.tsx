@@ -120,11 +120,11 @@ export default function ButcherPage() {
       {/* Menu Grid */}
       {/* Menu Grid */}
       <main className="flex-1 px-4 pb-4">
-        <div className="grid grid-cols-2">
+        <div className="flex flex-wrap -mx-2">
           {menus.map((item) => (
             <div
               key={item.id}
-              className="cursor-pointer mb-3 pr-3"
+              className="w-1/2 px-2 mb-4 cursor-pointer"
               onClick={() =>
                 openModal({
                   id: item.id,
