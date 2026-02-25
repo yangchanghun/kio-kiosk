@@ -15,7 +15,8 @@ export default function TestPage() {
 
   return (
     <div>
-      <h1>{bridgeStatus}</h1>
+      <h1>테스트 페이지입니다.</h1>
+      <h1>오류확인 : {bridgeStatus}</h1>
     </div>
   );
 }
