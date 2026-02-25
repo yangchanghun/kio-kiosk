@@ -9,13 +9,15 @@ import App from "./App";
 
 import SectionManagePage from "./admin/SectionManagePage";
 import SectionDetailPage from "./admin/SectionDetailPage";
+import TestPage from "./pages/TestPage";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<TestPage />} />
+        <Route path="/app" element={<App />} />
         <Route path="/admin" element={<SectionManagePage />} />
         <Route
           path="/admin/sections/:sectionId"

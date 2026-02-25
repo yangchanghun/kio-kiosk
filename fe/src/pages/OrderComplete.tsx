@@ -82,7 +82,7 @@ const OrderComplete = () => {
       setReturnCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(returnRef.current!);
-          navigate("/butcher");
+          navigate("/");
           return 0;
         }
         return prev - 1;
