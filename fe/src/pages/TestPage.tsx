@@ -1,32 +1,33 @@
 import { useEffect, useState } from "react";
 
-export default function TestPage() {
-  const [bridgeStatus, setBridgeStatus] = useState("checking...");
+export default function App() {
+  const [bridgeReady, setBridgeReady] = useState(false);
 
   useEffect(() => {
+    // Android가 호출할 함수
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((window as any).AndroidBridge) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setBridgeStatus("Bridge exists ✅");
-    } else {
-      setBridgeStatus("Bridge NOT found ❌");
-    }
-  }, []);
-  useEffect(() => {
-    const interval = setInterval(() => {
+    (window as any).onAndroidReady = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((window as any).AndroidBridge) {
-        setBridgeStatus("Bridge Ready ✅");
-        clearInterval(interval);
+        setBridgeReady(true);
       }
-    }, 300); // 0.3초마다 체크
-
-    return () => clearInterval(interval);
+    };
   }, []);
+
+  const print = () => {
+    if (!bridgeReady) {
+      alert("Bridge not ready");
+      return;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).AndroidBridge.printReceipt("test");
+  };
+
   return (
     <div>
-      <h1>테스트 페이지입니다.</h1>
-      <h1>오류확인 : {bridgeStatus}</h1>
+      <h1>{bridgeReady ? "Bridge Ready ✅" : "Waiting..."}</h1>
+      <button onClick={print}>출력</button>
     </div>
   );
 }
