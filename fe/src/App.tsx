@@ -25,25 +25,24 @@ export default function MainPage() {
 
       {/* 🔹 가운데 버튼 영역 (중앙 정렬 핵심) */}
       <div className="flex-1 flex flex-col justify-center items-center w-full">
-        <div className="flex flex-col gap-12 w-full max-w-[380px] px-6">
-          {sections.map((s) => (
+        <div className="flex flex-col w-full max-w-[380px] px-6">
+          {sections.map((s, index) => (
             <div
               key={s.id}
               onClick={() => navigate(`/section/${s.id}`)}
-              className="
-                bg-white
-                rounded-3xl
-                shadow-md
-                p-6
-                flex
-                justify-center
-                items-center
-                cursor-pointer
-                hover:scale-105
-                active:scale-95
-                transition
-                duration-200
-              "
+              className={`
+        bg-white
+        rounded-3xl
+        shadow-md
+        p-6
+        flex
+        justify-center
+        items-center
+        cursor-pointer
+        transition
+        duration-200
+        ${index !== 0 ? "mt-12" : ""}
+      `}
             >
               {s.image && (
                 <img

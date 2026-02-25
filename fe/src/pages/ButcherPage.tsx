@@ -118,11 +118,13 @@ export default function ButcherPage() {
       </div>
 
       {/* Menu Grid */}
+      {/* Menu Grid */}
       <main className="flex-1 px-4 pb-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2">
           {menus.map((item) => (
             <div
               key={item.id}
+              className="cursor-pointer mb-3 pr-3"
               onClick={() =>
                 openModal({
                   id: item.id,
@@ -130,7 +132,6 @@ export default function ButcherPage() {
                   price: item.price,
                 })
               }
-              className="cursor-pointer"
             >
               <MenuCard
                 name={item.name}
@@ -146,12 +147,11 @@ export default function ButcherPage() {
           ))}
         </div>
       </main>
-
       {/* Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-4px_16px_rgba(0,0,0,0.12)] px-4 py-4 flex gap-3">
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg px-4 py-4 flex">
         <button
           onClick={cancelOrder}
-          className="flex-1 py-4 rounded-full border-2 border-red-500 text-red-500 font-bold"
+          className="flex-1 py-4 rounded-full border-2 border-red-500 text-red-500 font-bold mr-3"
         >
           주문취소
         </button>
