@@ -6,13 +6,22 @@ import OrderComplete from "./pages/OrderComplete";
 import "./index.css";
 import ButcherPage from "./pages/ButcherPage";
 import App from "./App";
+
+import SectionManagePage from "./admin/SectionManagePage";
+import SectionDetailPage from "./admin/SectionDetailPage";
+
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/butcher" element={<ButcherPage />} />
+        <Route path="/admin" element={<SectionManagePage />} />
+        <Route
+          path="/admin/sections/:sectionId"
+          element={<SectionDetailPage />}
+        />
+        <Route path="/section/:id" element={<ButcherPage />} />
         <Route path="/order-complete" element={<OrderComplete />} />
       </Routes>
     </BrowserRouter>

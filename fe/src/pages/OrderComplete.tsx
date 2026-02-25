@@ -16,7 +16,7 @@ const OrderComplete = () => {
   const cart: CartItem[] = location.state?.cart ?? [];
   const totalPrice = cart.reduce((s, i) => s + i.price * i.quantity, 0);
   const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
-
+  const sectionId = location.state?.sectionId; // 🔥 추가
   const [step, setStep] = useState<PaymentStep>("summary");
   const [countdown, setCountdown] = useState(10);
   const [returnCountdown, setReturnCountdown] = useState(5);
@@ -97,10 +97,15 @@ const OrderComplete = () => {
     setStep("summary");
   };
 
+  const bgColor = sectionId === 6 ? "#D71920" : "#FFCC00";
+  console.log(bgColor);
+
   // ── 주문 요약 화면 ──────────────────────────────────────
   if (step === "summary") {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-8 px-6">
+      <div
+        className={`min-h-screen bg-[${bgColor}] flex flex-col items-center justify-center gap-8 px-6`}
+      >
         <div className="text-center">
           <div className="w-24 h-24 rounded-full bg-primary flex items-center justify-center mx-auto mb-6 shadow-lg">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
@@ -156,7 +161,7 @@ const OrderComplete = () => {
         </button>
         <button
           onClick={() => {
-            navigate("/butcher", { state: { cart } });
+            navigate(`/section/${sectionId}`, { state: { cart, sectionId } });
           }}
           className="w-full max-w-sm py-5 rounded-full border-2 border-primary text-primary font-black text-xl shadow-md"
         >
@@ -169,7 +174,7 @@ const OrderComplete = () => {
   // ── 카드 꽂기 화면 ──────────────────────────────────────
   if (step === "card") {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-8 px-6">
+      <div className="min-h-screen bg-[#D71920] flex flex-col items-center justify-center gap-8 px-6">
         <div className="bg-card rounded-3xl p-10 w-full max-w-sm shadow-2xl flex flex-col items-center gap-6">
           {/* 카드 아이콘 애니메이션 */}
           <div className="relative flex items-center justify-center">
@@ -258,7 +263,7 @@ const OrderComplete = () => {
 
   // ── 결제 완료 화면 ──────────────────────────────────────
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-6 px-6">
+    <div className="min-h-screen bg-[#D71920] flex flex-col items-center justify-center gap-6 px-6">
       <div className="text-center">
         <div className="w-28 h-28 rounded-full bg-accent flex items-center justify-center mx-auto mb-6 shadow-lg">
           <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
@@ -300,7 +305,7 @@ const OrderComplete = () => {
       </div>
 
       <button
-        onClick={() => navigate("/butcher")}
+        onClick={() => navigate("/")}
         className="px-10 py-4 rounded-full border-2 border-primary text-primary font-black text-lg"
       >
         지금 돌아가기

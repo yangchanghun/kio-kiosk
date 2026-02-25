@@ -2,14 +2,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
 interface Category {
-  id: string;
-  label: string;
+  id: number;
+  name: string;
 }
 
 interface CategoryTabsProps {
   categories: Category[];
-  activeId: string;
-  onSelect: (id: string) => void;
+  activeId: number | null; // 🔥 수정
+  onSelect: (id: number) => void; // 🔥 수정
 }
 
 const CategoryTabs = ({
@@ -61,7 +61,7 @@ const CategoryTabs = ({
                 : "bg-transparent text-foreground border-foreground hover:bg-foreground/10"
             }`}
           >
-            {cat.label}
+            {cat.name}
           </button>
         ))}
       </div>

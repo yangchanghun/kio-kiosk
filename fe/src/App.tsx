@@ -1,39 +1,64 @@
 import { useNavigate } from "react-router-dom";
+import { useSections } from "./api/useSections";
 
 export default function MainPage() {
   const navigate = useNavigate();
+  const { sections, loading, error } = useSections();
 
-  const menus = [
-    { title: "아하정육점", path: "/butcher", img: "/icon/butcher.png" },
-  ];
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">로딩중...</div>
+    );
+  if (error)
+    return (
+      <div className="flex justify-center items-center h-screen">{error}</div>
+    );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-500 to-gray-800 flex justify-center items-center px-6 py-10">
-      <div className="w-full max-w-6xl grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-        {menus.map((menu, index) => (
-          <div
-            key={index}
-            onClick={() => navigate(menu.path)}
-            className="bg-gray-100 rounded-3xl p-6 flex flex-col items-center justify-center cursor-pointer 
-                       shadow-lg hover:shadow-2xl transform hover:-translate-y-2 
-                       transition duration-300 ease-in-out"
-          >
-            {/* 이미지 영역 */}
-            <div className="w-full aspect-square flex items-center justify-center mb-3">
-              <img
-                src={menu.img}
-                alt={menu.title}
-                className="w-full h-full object-contain"
-              />
-            </div>
-
-            {/* 제목 */}
-            {/* <p className="text-center font-semibold text-sm md:text-base text-gray-800">
-              {menu.title}
-            </p> */}
-          </div>
-        ))}
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center">
+      {/* 🔺 상단 타이틀 */}
+      <div className="pt-16 pb-10 text-center">
+        <h1 className="text-6xl font-bold text-red-600 tracking-wider">
+          온마을시장
+        </h1>
       </div>
+
+      {/* 🔹 가운데 버튼 영역 (중앙 정렬 핵심) */}
+      <div className="flex-1 flex flex-col justify-center items-center w-full">
+        <div className="flex flex-col gap-12 w-full max-w-[380px] px-6">
+          {sections.map((s) => (
+            <div
+              key={s.id}
+              onClick={() => navigate(`/section/${s.id}`)}
+              className="
+                bg-white
+                rounded-3xl
+                shadow-md
+                p-6
+                flex
+                justify-center
+                items-center
+                cursor-pointer
+                hover:scale-105
+                active:scale-95
+                transition
+                duration-200
+              "
+            >
+              {s.image && (
+                <img
+                  src={`https://smartkio.kioedu.co.kr${s.image}`}
+                  alt={s.name}
+                  className="w-40 h-40 object-contain"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 🔹 하단 로고 */}
+      <div className="pb-8 text-sm text-gray-500">© kioedu</div>
     </div>
   );
 }
