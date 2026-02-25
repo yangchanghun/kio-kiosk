@@ -19,7 +19,7 @@ const OrderComplete = () => {
   const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
   const sectionId = location.state?.sectionId; // 🔥 추가
   const [step, setStep] = useState<PaymentStep>("summary");
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(7);
   const [returnCountdown, setReturnCountdown] = useState(5);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const returnRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -28,7 +28,7 @@ const OrderComplete = () => {
   useEffect(() => {
     if (step !== "card") return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setCountdown(10);
+    setCountdown(7);
     intervalRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -251,7 +251,7 @@ const OrderComplete = () => {
             <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
               <div
                 className="h-full bg-primary rounded-full transition-all duration-1000"
-                style={{ width: `${((10 - countdown) / 10) * 100}%` }}
+                style={{ width: `${((7 - countdown) / 7) * 100}%` }}
               />
             </div>
           </div>
