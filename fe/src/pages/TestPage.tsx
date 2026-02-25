@@ -12,7 +12,17 @@ export default function TestPage() {
       setBridgeStatus("Bridge NOT found ❌");
     }
   }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((window as any).AndroidBridge) {
+        setBridgeStatus("Bridge Ready ✅");
+        clearInterval(interval);
+      }
+    }, 300); // 0.3초마다 체크
 
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div>
       <h1>테스트 페이지입니다.</h1>
