@@ -41,6 +41,9 @@ export default function SectionManagePage() {
   };
 
   const handleDelete = async (id: number) => {
+    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    if (!confirmDelete) return;
+
     await axios.delete(`${API_URL}/manage/section/${id}/`);
     fetchSections();
   };

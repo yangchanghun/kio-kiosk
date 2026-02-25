@@ -92,7 +92,15 @@ export default function ButcherPage() {
   const completeOrder = () => {
     navigate("/order-complete", { state: { cart, sectionId: id } });
   };
-  const bgColor = id === "6" ? "#D71920" : "#FFCC00";
+  const sectionColors: Record<string, string> = {
+    아하정육점: "#D71920",
+    경기상회: "#396556",
+    경기바다수산: "#3DB8CD",
+  };
+  const bgColor = sectionColors[data.name] ?? "#FFCC00";
+  // 아하정육점이면 #D71920
+  // 경기상회이면 #39656
+  // 경기수산이면 #3DB8CD
   console.log(bgColor);
   return (
     <div

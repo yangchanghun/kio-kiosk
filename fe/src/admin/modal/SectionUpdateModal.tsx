@@ -3,48 +3,60 @@ import axios from "axios";
 
 interface Props {
   sectionId: number;
+  currentName: string;
   onClose: () => void;
-  onSuccess: () => void; // ✅ 추가
+  onSuccess: (newName: string) => void;
 }
 
 const API_URL = "https://smartkio.kioedu.co.kr/api/kioedu";
 
-export default function CategoryAddModal({
+export default function SectionUpdateModal({
   sectionId,
+  currentName,
   onClose,
   onSuccess,
 }: Props) {
-  const [name, setName] = useState("");
-  console.log("열림");
-  console.log(sectionId);
-  const handleCreate = async () => {
+  const [name, setName] = useState(currentName);
+  const [image, setImage] = useState<File | null>(null);
+
+  const handleUpdate = async () => {
     if (!name.trim()) return;
 
+    const formData = new FormData();
+    formData.append("name", name);
+    if (image) formData.append("image", image);
+
     try {
-      await axios.post(`${API_URL}/register/category/`, {
-        section_id: sectionId,
-        name,
+      await axios.put(`${API_URL}/manage/section/${sectionId}/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      setName("");
-      onSuccess(); // ✅ 성공 시 부모 갱신
+      onSuccess(name);
       onClose();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.log(err.response?.data);
     }
   };
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white w-[400px] rounded-xl p-6 shadow-lg">
-        <h2 className="text-lg font-semibold mb-4">카테고리 추가</h2>
+        <h2 className="text-lg font-semibold mb-4">섹션 정보 수정</h2>
 
         <input
           type="text"
-          placeholder="카테고리명 입력"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full border rounded-lg px-3 py-2 mb-4"
+        />
+
+        <input
+          type="file"
+          onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+          className="mb-4"
         />
 
         <div className="flex justify-end gap-4">
@@ -53,10 +65,10 @@ export default function CategoryAddModal({
           </button>
 
           <button
-            onClick={handleCreate}
+            onClick={handleUpdate}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg"
           >
-            등록
+            수정
           </button>
         </div>
       </div>

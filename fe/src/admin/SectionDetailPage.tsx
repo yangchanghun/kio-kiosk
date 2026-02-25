@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CategoryAddModal from "./modal/CategoryAddModal";
-import { useParams } from "react-router-dom";
-
-interface Section {
-  id: number;
-  name: string;
-}
+import { useNavigate, useParams } from "react-router-dom";
+import SectionUpdateModal from "./modal/SectionUpdateModal";
+import MenuAddModal from "./modal/MenuAddModal";
+import { ChevronLeft } from "lucide-react";
+import MenuUpdateModal from "./modal/MenuUpdateModal";
+import CategoryUpdateModal from "./modal/CategoryUpdateModal";
 
 interface Category {
   id: number;
@@ -24,9 +24,12 @@ interface Menu {
 const API_URL = "https://smartkio.kioedu.co.kr/api/kioedu";
 
 export default function SectionDetailPage() {
-  const [sections, setSections] = useState<Section[]>([]);
   const [selectedSection, setSelectedSection] = useState<number | null>(null);
-
+  const [sectionUpdateModalOpen, setSectionUpdateModalOpen] = useState(false);
+  const [selectedSectionName, setSelectedSectionName] = useState<string | null>(
+    null,
+  );
+  const navigate = useNavigate();
   const sectionId = useParams().sectionId;
   console.log("섹션 아이디", sectionId);
   // 카테고리 모달 추가
@@ -37,9 +40,22 @@ export default function SectionDetailPage() {
 
   const [menus, setMenus] = useState<Menu[]>([]);
 
+  const [categoryName, setCategoryName] = useState("");
+
+  const [menuModalOpen, setMenuModalOpen] = useState(false);
+
+  const [menuUpdateModalOpen, setMenuUpdateModalOpen] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
+
+  const [categoryUpdateModalOpen, setCategoryUpdateModalOpen] = useState(false);
+  const [selectedCategoryObj, setSelectedCategoryObj] =
+    useState<Category | null>(null);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/immutability
-    fetchSections();
+
+    // eslint-disable-next-line react-hooks/immutability
+    fetchSection();
   }, []);
 
   useEffect(() => {
@@ -56,16 +72,18 @@ export default function SectionDetailPage() {
     }
   }, [selectedCategory]);
 
-  const fetchSections = async () => {
-    const res = await axios.get(`${API_URL}/sections/`);
-    setSections(res.data);
-  };
-
   const fetchCategories = async (sectionId: number) => {
     const res = await axios.get(
       `${API_URL}/categories/?section_id=${sectionId}`,
     );
     setCategories(res.data);
+  };
+
+  const fetchSection = async () => {
+    const res = await axios.get(`${API_URL}/section/${sectionId}/`);
+    console.log("섹션 상세", res.data);
+    setSelectedSection(res.data.id);
+    setSelectedSectionName(res.data.name);
   };
 
   const fetchMenus = async (catId: number) => {
@@ -78,20 +96,17 @@ export default function SectionDetailPage() {
       <div className="bg-white rounded-xl shadow-md p-8">
         {/* 🔹 상단 */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">섹션 상세 관리</h1>
+          <div className="flex">
+            <button onClick={() => navigate(-1)}>
+              <ChevronLeft color="black" size={36} strokeWidth={3} />
+            </button>
+            <h1 className="text-2xl font-bold">섹션 상세 관리</h1>
+          </div>
 
           <div className="flex gap-4 items-center">
-            <select
-              onChange={(e) => setSelectedSection(Number(e.target.value))}
-              className="border px-3 py-2 rounded-lg"
-            >
-              <option value="">섹션 선택</option>
-              {sections.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
+            <div className="border px-3 py-2 rounded-lg">
+              {selectedSectionName || "섹션명"}
+            </div>
 
             <button
               onClick={() => {
@@ -102,7 +117,12 @@ export default function SectionDetailPage() {
               카테고리 추가
             </button>
 
-            <button className="text-gray-600 hover:underline">
+            <button
+              onClick={() => {
+                setSectionUpdateModalOpen(true);
+              }}
+              className="text-gray-600 hover:underline"
+            >
               섹션 정보 수정
             </button>
           </div>
@@ -128,12 +148,54 @@ export default function SectionDetailPage() {
                   <tr
                     key={cat.id}
                     className="border-t hover:bg-gray-50 cursor-pointer"
-                    onClick={() => setSelectedCategory(cat.id)}
+                    onClick={() => {
+                      setSelectedCategory(cat.id);
+                      setCategoryName(cat.name);
+                    }}
                   >
                     <td className="px-4 py-3">{cat.id}</td>
                     <td className="px-4 py-3">{cat.name}</td>
-                    <td className="px-4 py-3 text-right">
-                      <button className="text-red-500">삭제</button>
+                    <td
+                      className="px-4 py-3 text-right space-x-3"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedCategoryObj(cat);
+                          setCategoryUpdateModalOpen(true);
+                        }}
+                        className="text-blue-600 hover:underline"
+                      >
+                        수정
+                      </button>
+
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation();
+
+                          const ok =
+                            window.confirm("카테고리를 삭제하시겠습니까?");
+                          if (!ok) return;
+
+                          await axios.delete(
+                            `${API_URL}/manage/category/${cat.id}/`,
+                          );
+
+                          if (selectedSection) {
+                            fetchCategories(selectedSection);
+                          }
+
+                          if (selectedCategory === cat.id) {
+                            setSelectedCategory(null);
+                            setMenus([]);
+                            setCategoryName("");
+                          }
+                        }}
+                        className="text-red-500 hover:underline"
+                      >
+                        삭제
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -144,13 +206,25 @@ export default function SectionDetailPage() {
 
         {/* 🔹 메뉴 영역 */}
         <div>
-          <h2 className="font-semibold mb-4">메뉴</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-semibold">메뉴 {categoryName}</h2>
+            {selectedCategory && (
+              <button
+                onClick={() => {
+                  setMenuModalOpen(true);
+                }}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+              >
+                메뉴추가
+              </button>
+            )}
+          </div>
 
           {selectedCategory ? (
             menus.length === 0 ? (
               <p className="text-gray-400">메뉴를 추가해주세요.</p>
             ) : (
-              <table className="w-full border rounded-lg overflow-hidden">
+              <table className="w-full border  overflow-hidden">
                 <thead className="bg-gray-50 text-sm">
                   <tr>
                     <th className="px-4 py-2 text-left">ID</th>
@@ -161,12 +235,38 @@ export default function SectionDetailPage() {
                 </thead>
                 <tbody>
                   {menus.map((menu) => (
-                    <tr key={menu.id} className="border-t hover:bg-gray-50">
+                    <tr
+                      onClick={() => {
+                        setSelectedMenu(menu);
+                        setMenuUpdateModalOpen(true);
+                      }}
+                      key={menu.id}
+                      className="border-t hover:bg-gray-50"
+                    >
                       <td className="px-4 py-3">{menu.id}</td>
                       <td className="px-4 py-3">{menu.name}</td>
                       <td className="px-4 py-3">{menu.price}원</td>
                       <td className="px-4 py-3 text-right">
-                        <button className="text-red-500">삭제</button>
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation(); // 🔥 수정모달 뜨는거 막기
+
+                            const ok =
+                              window.confirm("메뉴를 삭제하시겠습니까?");
+                            if (!ok) return;
+
+                            await axios.delete(
+                              `${API_URL}/manage/menu/${menu.id}/`,
+                            );
+
+                            if (selectedCategory) {
+                              fetchMenus(selectedCategory); // 🔥 삭제 후 새로고침
+                            }
+                          }}
+                          className="text-red-500"
+                        >
+                          삭제
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -178,10 +278,50 @@ export default function SectionDetailPage() {
           )}
         </div>
       </div>
-      {categoryModalOpen && (
+      {categoryModalOpen && selectedSection && (
         <CategoryAddModal
-          sectionId={Number(sectionId)}
+          sectionId={selectedSection}
           onClose={() => setCategoryModalOpen(false)}
+          onSuccess={() => fetchCategories(selectedSection)} // ✅ 여기 핵심
+        />
+      )}
+      {sectionUpdateModalOpen && selectedSection && selectedSectionName && (
+        <SectionUpdateModal
+          sectionId={selectedSection}
+          currentName={selectedSectionName}
+          onClose={() => setSectionUpdateModalOpen(false)}
+          onSuccess={(newName) => {
+            setSelectedSectionName(newName);
+          }}
+        />
+      )}
+      {menuModalOpen && selectedCategory && (
+        <MenuAddModal
+          categoryId={selectedCategory}
+          onClose={() => setMenuModalOpen(false)}
+          onSuccess={() => fetchMenus(selectedCategory)} // 🔥 바로 반영
+        />
+      )}
+      {menuUpdateModalOpen && selectedMenu && selectedCategory && (
+        <MenuUpdateModal
+          menu={selectedMenu}
+          onClose={() => {
+            setMenuUpdateModalOpen(false);
+            setSelectedMenu(null);
+          }}
+          onSuccess={() => fetchMenus(selectedCategory)}
+        />
+      )}
+      {categoryUpdateModalOpen && selectedCategoryObj && selectedSection && (
+        <CategoryUpdateModal
+          category={selectedCategoryObj}
+          onClose={() => {
+            setCategoryUpdateModalOpen(false);
+            setSelectedCategoryObj(null);
+          }}
+          onSuccess={() => {
+            fetchCategories(selectedSection);
+          }}
         />
       )}
     </div>
