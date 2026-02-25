@@ -90,7 +90,9 @@ export default function ButcherPage() {
   const cancelOrder = () => setCart([]);
 
   const completeOrder = () => {
-    navigate("/order-complete", { state: { cart, sectionId: id } });
+    navigate("/order-complete", {
+      state: { cart, sectionId: id, sectionName: data.name },
+    });
   };
   const sectionColors: Record<string, string> = {
     아하정육점: "#D71920",

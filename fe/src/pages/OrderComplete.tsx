@@ -13,6 +13,7 @@ type PaymentStep = "summary" | "card" | "done";
 const OrderComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const sectionName = location.state?.sectionName || "에러"; // 🔥 섹션 이름 받아오기
   const cart: CartItem[] = location.state?.cart ?? [];
   const totalPrice = cart.reduce((s, i) => s + i.price * i.quantity, 0);
   const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
@@ -27,7 +28,7 @@ const OrderComplete = () => {
   useEffect(() => {
     if (step !== "card") return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setCountdown(5);
+    setCountdown(10);
     intervalRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -87,7 +88,7 @@ const OrderComplete = () => {
         }
         return prev - 1;
       });
-    }, 500);
+    }, 1000);
 
     return () => clearInterval(returnRef.current!);
   }, [step, navigate]);
@@ -97,7 +98,12 @@ const OrderComplete = () => {
     setStep("summary");
   };
 
-  const bgColor = sectionId === 6 ? "#D71920" : "#FFCC00";
+  const sectionColors: Record<string, string> = {
+    아하정육점: "#D71920",
+    경기상회: "#396556",
+    경기바다수산: "#3DB8CD",
+  };
+  const bgColor = sectionColors[sectionName] ?? "#FFCC00";
   console.log(bgColor);
 
   // ── 주문 요약 화면 ──────────────────────────────────────
