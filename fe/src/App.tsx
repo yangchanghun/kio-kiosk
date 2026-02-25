@@ -6,14 +6,12 @@ export default function MainPage() {
   const navigate = useNavigate();
   const { sections, loading, error } = useSections();
 
-  // 🔥 히든 어드민 진입용
   const clickCountRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleTitleClick = () => {
     clickCountRef.current += 1;
 
-    // 첫 클릭이면 타이머 시작
     if (!timerRef.current) {
       timerRef.current = setTimeout(() => {
         clickCountRef.current = 0;
@@ -23,13 +21,8 @@ export default function MainPage() {
 
     if (clickCountRef.current >= 5) {
       navigate("/admin");
-
       clickCountRef.current = 0;
-
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
+      if (timerRef.current) clearTimeout(timerRef.current);
     }
   };
 
@@ -43,9 +36,27 @@ export default function MainPage() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col items-center">
-      {/* 🔺 상단 타이틀 */}
-      <div className="pt-16 pb-10 text-center">
+    <div className="relative min-h-screen flex flex-col items-center bg-gray-100 overflow-hidden">
+      {/* 🔥 노란 테두리 SVG */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        viewBox="0 0 300 700"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M40 680 L40 150 L150 10 L260 150 L260 680"
+          fill="none"
+          stroke="#F4B400"
+          strokeWidth="18"
+          strokeLinejoin="round"
+        />
+      </svg>
+
+      {/* 🔺 타이틀 */}
+      <div
+        style={{ marginTop: "200px" }}
+        className=" pb-10 text-center relative z-10"
+      >
         <h1
           onClick={handleTitleClick}
           className="text-6xl font-bold text-red-600 tracking-wider cursor-pointer select-none"
@@ -54,9 +65,9 @@ export default function MainPage() {
         </h1>
       </div>
 
-      {/* 🔹 가운데 버튼 영역 */}
-      <div className="flex-1 flex flex-col justify-center items-center w-full">
-        <div className="flex flex-col w-full max-w-[380px] px-6">
+      {/* 🔹 버튼 영역 */}
+      <div className="flex-1 flex flex-col justify-center items-center w-full relative z-10">
+        <div className="flex flex-col w-full max-w-[360px] px-6">
           {sections.map((s, index) => (
             <div
               key={s.id}
@@ -64,7 +75,7 @@ export default function MainPage() {
               className={`
                 bg-white
                 rounded-3xl
-                shadow-md
+                shadow-lg
                 p-6
                 flex
                 justify-center
@@ -72,22 +83,30 @@ export default function MainPage() {
                 cursor-pointer
                 transition
                 duration-200
-                ${index !== 0 ? "mt-12" : ""}
+                hover:scale-105
+                ${index !== 0 ? "mt-10" : ""}
               `}
             >
               {s.image && (
                 <img
                   src={`https://smartkio.kioedu.co.kr${s.image}`}
                   alt={s.name}
-                  className="w-40 h-40 object-contain"
+                  className="w-36 h-36 object-contain"
                 />
               )}
             </div>
           ))}
         </div>
       </div>
-
-      <div className="pb-8 text-sm text-gray-500">© kioedu</div>
+      {/* 🔻 오른쪽 하단 로고 */}
+      <div className="absolute bottom-6 right-6 z-10">
+        <img
+          src="/main-icon.jpeg"
+          alt="놀이터로고"
+          className="w-[140px] opacity-90"
+        />
+      </div>
+      <div className="pb-8 text-sm text-gray-500 relative z-10">© kioedu</div>
     </div>
   );
 }
