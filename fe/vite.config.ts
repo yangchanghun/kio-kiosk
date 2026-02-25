@@ -9,7 +9,7 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       devOptions: {
-        enabled: true, // 개발 모드에서도 PWA 테스트 가능
+        enabled: true,
       },
       manifest: {
         name: "간단키오에듀",
@@ -22,20 +22,17 @@ export default defineConfig({
         scope: "/",
         start_url: "/",
         icons: [
-          {
-            src: "/192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "/rv512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
+          { src: "/192.png", sizes: "192x192", type: "image/png" },
+          { src: "/rv512.png", sizes: "512x512", type: "image/png" },
         ],
       },
     }),
   ],
+
+  build: {
+    target: "es2015", // 🔥 이거 추가
+  },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
