@@ -30,7 +30,7 @@ export default defineConfig({
   ],
 
   build: {
-    target: "es2015", // 🔥 이거 추가
+    target: "chrome58", // 🔥 이거 추가
   },
 
   resolve: {
