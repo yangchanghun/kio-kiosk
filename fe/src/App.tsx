@@ -38,8 +38,8 @@ export default function MainPage() {
   return (
     <div className="relative min-h-screen flex flex-col items-center bg-gray-100 overflow-hidden">
       {/* 🔥 노란 테두리 SVG */}
-      <div className="relative w-full max-w-[1000px] min-h-screen flex flex-col items-center bg-gray-100 overflow-hidden shadow-xl">
-        <svg
+      {/* <div className="relative w-full max-w-[1000px] min-h-screen flex flex-col items-center bg-gray-100 overflow-hidden shadow-xl"> */}
+      {/* <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
           viewBox="0 0 300 700"
           preserveAspectRatio="none"
@@ -51,10 +51,16 @@ export default function MainPage() {
             strokeWidth="18"
             strokeLinejoin="round"
           />
-        </svg>
+        </svg> */}
 
-        {/* 🔺 타이틀 */}
-        {/* <div
+      <img
+        src="/yelloframe.svg"
+        alt="frame"
+        className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0"
+      />
+
+      {/* 🔺 타이틀 */}
+      {/* <div
           style={{ marginTop: "200px" }}
           className=" pb-10 text-center relative z-10"
         >
@@ -66,23 +72,23 @@ export default function MainPage() {
         </h1>
           <img style={{ width: "100%" }} src="/titleicon.png" />
         </div> */}
-        <div className="mt-[180px] pb-10 text-center relative z-10 flex justify-center">
-          <img
-            onClick={handleTitleClick}
-            src="/titleicon.png"
-            alt="title"
-            className="w-full max-w-[420px] h-auto object-contain"
-          />
-        </div>
+      <div className="mt-[180px] pb-10 text-center relative z-10 flex justify-center">
+        <img
+          onClick={handleTitleClick}
+          src="/titleicon.png"
+          alt="title"
+          className="w-full max-w-[320px] h-auto object-contain"
+        />
+      </div>
 
-        {/* 🔹 버튼 영역 */}
-        <div className="flex-1 flex flex-col justify-center items-center w-full relative z-10">
-          <div className="flex flex-col w-full max-w-[360px] px-6">
-            {sections.map((s, index) => (
-              <div
-                key={s.id}
-                onClick={() => navigate(`/section/${s.id}`)}
-                className={`
+      {/* 🔹 버튼 영역 */}
+      <div className="flex-1 flex flex-col justify-center items-center w-full relative z-10">
+        <div className="flex flex-col w-full max-w-[360px] px-6">
+          {sections.map((s, index) => (
+            <div
+              key={s.id}
+              onClick={() => navigate(`/section/${s.id}`)}
+              className={`
                 bg-white
                 rounded-3xl
                 shadow-lg
@@ -96,28 +102,22 @@ export default function MainPage() {
                 hover:scale-105
                 ${index !== 0 ? "mt-10" : ""}
               `}
-              >
-                {s.image && (
-                  <img
-                    src={`https://smartkio.kioedu.co.kr${s.image}`}
-                    alt={s.name}
-                    className="w-36 h-36 object-contain"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+            >
+              {s.image && (
+                <img
+                  src={`https://smartkio.kioedu.co.kr${s.image}`}
+                  alt={s.name}
+                  className="w-36 h-36 object-contain"
+                />
+              )}
+            </div>
+          ))}
         </div>
-        {/* 🔻 오른쪽 하단 로고 */}
-        <div className="absolute bottom-6 right-6 z-10">
-          <img
-            src="/main-icon.jpeg"
-            alt="놀이터로고"
-            className="w-[140px] opacity-90"
-          />
-        </div>
-        <div className="pb-8 text-sm text-gray-500 relative z-10">© kioedu</div>
       </div>
+      {/* 🔻 오른쪽 하단 로고 */}
+
+      <div className="pb-8 text-sm text-gray-500 relative z-10">© kioedu</div>
     </div>
+    // </div>
   );
 }
