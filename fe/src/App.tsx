@@ -52,13 +52,11 @@ export default function MainPage() {
             strokeLinejoin="round"
           />
         </svg> */}
-
       <img
         src="/yelloframe.svg"
         alt="frame"
         className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0"
       />
-
       {/* 🔺 타이틀 */}
       {/* <div
           style={{ marginTop: "200px" }}
@@ -72,15 +70,15 @@ export default function MainPage() {
         </h1>
           <img style={{ width: "100%" }} src="/titleicon.png" />
         </div> */}
+
       <div className="mt-[180px] pb-10 text-center relative z-10 flex justify-center">
         <img
           onClick={handleTitleClick}
-          src="/titleicon.png"
+          src="/whitetitle.png"
           alt="title"
-          className="w-full max-w-[320px] h-auto object-contain"
+          className="w-full max-w-[200px] h-auto object-contain opacity-0"
         />
       </div>
-
       {/* 🔹 버튼 영역 */}
       <div className="flex-1 flex flex-col justify-center items-center w-full relative z-10">
         <div className="flex flex-col w-full max-w-[360px] px-6">
@@ -117,7 +115,6 @@ export default function MainPage() {
         </div>
       </div>
       {/* 🔻 오른쪽 하단 로고 */}
-
       <div className="pb-8 text-sm text-gray-500 relative z-10">© kioedu</div>
     </div>
     // </div>
