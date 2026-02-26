@@ -87,7 +87,9 @@ export default function MainPage() {
           {sections.map((s, index) => (
             <div
               key={s.id}
-              onClick={() => navigate(`/section/${s.id}`)}
+              onClick={() =>
+                navigate(`/section/${s.id}`, { state: { imgSrc: s.image } })
+              }
               className={`
                 bg-white
                 rounded-3xl

@@ -23,7 +23,7 @@ export default function ButcherPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-
+  const imgSrc = location.state?.imgSrc || "";
   const { data, loading } = useSectionDetail(id);
 
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
@@ -103,7 +103,9 @@ export default function ButcherPage() {
   // 아하정육점이면 #D71920
   // 경기상회이면 #39656
   // 경기수산이면 #3DB8CD
-  console.log(bgColor);
+
+  console.log(data);
+
   return (
     <div
       className={`min-h-screen flex flex-col pb-28`}
@@ -114,8 +116,31 @@ export default function ButcherPage() {
         <ChevronLeft color="white" size={36} strokeWidth={3} />
       </button>
 
-      <header className="pt-10 pb-4 flex justify-center">
-        <h1 className="text-4xl text-white">{data.name}</h1>
+      <header className="flex justify-center">
+        {/* <h1 className="text-4xl text-white">{data.name}</h1> */}
+        <div
+          className="
+          w-[320px]
+           bg-white
+                rounded-3xl
+                shadow-lg
+                p-6
+                flex
+                justify-center
+                items-center
+                cursor-pointer
+                transition
+                duration-200
+                hover:scale-105"
+        >
+          {imgSrc && (
+            <img
+              src={`https://smartkio.kioedu.co.kr${imgSrc}`}
+              alt="Section"
+              className="w-32 h-32 object-contain"
+            />
+          )}
+        </div>
       </header>
 
       {/* Category Tabs */}
@@ -161,19 +186,29 @@ export default function ButcherPage() {
       <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg px-4 py-4 flex">
         <button
           onClick={cancelOrder}
-          className="flex-1 py-4 rounded-full border-2 border-red-500 text-red-500 font-bold mr-3"
+          className="flex flex-1 text-xl items-center justify-center py-4 rounded-full border-2 border-red-500 text-red-500 font-bold mr-3"
         >
+          <img src="/canclecart.svg" className="w-16 h-16 mr-2" />
           주문취소
         </button>
 
         <button
           onClick={completeOrder}
           disabled={totalCount === 0}
-          className="flex-1 py-4 rounded-full bg-black text-white font-bold disabled:opacity-40 relative"
+          className="flex flex-1 items-center justify-center py-4 rounded-full border-2 border-black text-xl
+             bg-white text-black font-bold 
+             relative"
         >
-          장바구니 보기
+          <img src="/cart.svg" className="w-16 h-16 mr-2" />
+          <span>장바구니 보기</span>
+
           {totalCount > 0 && (
-            <span className="absolute -top-2 -right-1 bg-yellow-400 text-black text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+            <span
+              className="absolute -top-2 -right-1 
+                     bg-yellow-400 text-black text-xs font-bold 
+                     rounded-full w-6 h-6 
+                     flex items-center justify-center"
+            >
               {totalCount}
             </span>
           )}
