@@ -134,24 +134,15 @@ export default function MainPage() {
         </div>
       </div>
       {/* 🛒 오른쪽 고정 장바구니 패널 */}
-      <div className="fixed left-2 bottom-0.5 -translate-y-1/2 z-50">
-        <div className="bg-white rounded-xl shadow-xl flex justify-center items-center py-4 px-2 w-[150px]">
-          {/* 주문취소 */}
-          <button
-            onClick={cancelOrder}
-            className="flex flex-col items-center mr-5 text-sm font-bold text-red-600"
-          >
-            <img src="/canclecart.svg" className="w-8 h-8 mb-2" />
-            <span className="h-5 flex items-center">취소</span>
-          </button>
-
+      <div className="fixed left-10 bottom-24 z-20">
+        <div className="bg-white rounded-2xl shadow-2xl flex flex-col items-center py-6 px-4 w-[110px]">
           {/* 장바구니 */}
           <button
             onClick={completeOrder}
             disabled={totalCount === 0}
-            className="flex flex-col items-center text-sm font-bold relative"
+            className="flex flex-col items-center text-sm font-bold relative mb-6 disabled:opacity-40"
           >
-            <img src="/cart.svg" className="w-8 h-8 mb-2" />
+            <img src="/cart.svg" className="w-10 h-10 mb-2" />
             <span className="h-5 flex items-center">장바구니</span>
 
             {totalCount > 0 && (
@@ -159,6 +150,15 @@ export default function MainPage() {
                 {totalCount}
               </span>
             )}
+          </button>
+
+          {/* 취소 */}
+          <button
+            onClick={cancelOrder}
+            className="flex flex-col items-center text-sm font-bold text-red-600"
+          >
+            <img src="/canclecart.svg" className="w-10 h-10 mb-2" />
+            <span className="h-5 flex items-center">취소</span>
           </button>
         </div>
       </div>

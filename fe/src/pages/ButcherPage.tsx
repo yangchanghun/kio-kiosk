@@ -119,7 +119,7 @@ export default function ButcherPage() {
         className="absolute top-4 left-4 z-50"
         onClick={() => navigate("/", { state: { cart } })}
       >
-        <ChevronLeft color="black" size={70} strokeWidth={5} />
+        <img src="/back.svg" className="w-16 h-16" />
       </button>
 
       <header className="flex justify-center">
