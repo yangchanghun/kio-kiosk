@@ -239,7 +239,7 @@ export default function ButcherPage() {
     "
           style={{ WebkitTapHighlightColor: "transparent" }}
         >
-          <img src="/back.svg" className="w-16 h-16" />
+          <img src="/back.svg" className="w-24 h-24" />
         </div>
 
         {/* 주문취소 */}
