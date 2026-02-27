@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTabs";
 import MenuCard from "../components/MenuCard";
 import QuantityModal from "../components/QuantityModal";
-import { ChevronLeft } from "lucide-react";
+// import { ChevronLeft } from "lucide-react";
 import { useSectionDetail } from "@/api/useSectionDetail";
 
 interface CartItem {
@@ -91,7 +91,7 @@ export default function ButcherPage() {
 
   const completeOrder = () => {
     navigate("/order-complete", {
-      state: { cart, sectionId: id, sectionName: data.name },
+      state: { cart, sectionId: id, sectionName: data.name, imgSrc: imgSrc },
     });
   };
   const sectionColors: Record<string, string> = {
@@ -112,19 +112,24 @@ export default function ButcherPage() {
       style={{ backgroundColor: bgColor }}
     >
       {/* Header */}
-      <button className="fixed top-4 left-4 z-50" onClick={() => navigate("/")}>
-        <ChevronLeft color="white" size={36} strokeWidth={3} />
+      <button
+        style={{ padding: "15px", paddingLeft: "30px", paddingRight: "30px" }}
+        className="bg-black text-white text-xl  font-bold rounded-lg absolute top-4 left-4 z-50"
+        onClick={() => navigate("/")}
+      >
+        {/* <ChevronLeft color="white" size={50} strokeWidth={3} /> */}
+        뒤로가기
       </button>
 
       <header className="flex justify-center">
         {/* <h1 className="text-4xl text-white">{data.name}</h1> */}
         <div
+          style={{ margin: "3px" }}
           className="
-          w-[320px]
+          w-[250px]
            bg-white
                 rounded-3xl
                 shadow-lg
-                p-6
                 flex
                 justify-center
                 items-center
@@ -137,7 +142,7 @@ export default function ButcherPage() {
             <img
               src={`https://smartkio.kioedu.co.kr${imgSrc}`}
               alt="Section"
-              className="w-32 h-32 object-contain"
+              className="w-46 h-46 object-contain"
             />
           )}
         </div>

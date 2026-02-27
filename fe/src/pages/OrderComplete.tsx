@@ -24,6 +24,7 @@ const OrderComplete = () => {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const returnRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [printTrigger, setPrintTrigger] = useState(0);
+  const imgSrc = location.state?.imgSrc || ""; // 🔥 이미지 경로 받아오기
   // 카드 꽂기 → 10초 카운트다운 후 결제 완료
   useEffect(() => {
     if (step !== "card") return;
@@ -167,7 +168,9 @@ const OrderComplete = () => {
         </button>
         <button
           onClick={() => {
-            navigate(`/section/${sectionId}`, { state: { cart, sectionId } });
+            navigate(`/section/${sectionId}`, {
+              state: { cart, sectionId, imgSrc },
+            });
           }}
           className="w-full max-w-sm py-5 rounded-full border-2 border-primary text-primary font-black text-xl shadow-md"
         >
