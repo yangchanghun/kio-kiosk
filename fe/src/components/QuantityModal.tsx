@@ -34,17 +34,19 @@ const QuantityModal = ({
         </div>
 
         {/* 수량 조절 */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center">
           <button
             onClick={onDecrease}
             disabled={quantity <= 1}
-            className="w-12 h-12 rounded-full bg-primary text-primary-foreground text-2xl font-bold flex items-center justify-center disabled:opacity-30 transition-opacity"
+            className="w-12 h-12 mr-5 rounded-full bg-primary text-primary-foreground text-2xl font-bold flex items-center justify-center disabled:opacity-30 transition-opacity"
           >
             −
           </button>
-          <span className="text-3xl font-black text-card-foreground w-10 text-center">
+
+          <span className="text-3xl font-black text-card-foreground w-10 text-center mr-5">
             {quantity}
           </span>
+
           <button
             onClick={onIncrease}
             className="w-12 h-12 rounded-full bg-primary text-primary-foreground text-2xl font-bold flex items-center justify-center transition-opacity"
@@ -54,40 +56,17 @@ const QuantityModal = ({
         </div>
 
         {/* 버튼 */}
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-          }}
-        >
+        <div className="flex w-full">
           <button
+            style={{ marginRight: "12px" }}
             onClick={onCancel}
-            style={{
-              flex: 1,
-              padding: "12px 0",
-              borderRadius: "9999px",
-              border: "none",
-              background: "white",
-              color: "#1d4ed8",
-              fontWeight: "bold",
-              fontSize: "16px",
-              marginRight: "12px", // 👈 gap 대신 이거
-            }}
+            className="flex-1 py-3 rounded-full border-2 border-primary text-primary font-bold text-base"
           >
             취소
           </button>
-
           <button
             onClick={onAdd}
-            style={{
-              flex: 1,
-              padding: "12px 0",
-              borderRadius: "9999px",
-              border: "none",
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "16px",
-            }}
+            className="flex-1 py-3 rounded-full bg-primary text-primary-foreground font-bold text-base"
           >
             담기
           </button>
