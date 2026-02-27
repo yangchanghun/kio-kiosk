@@ -24,7 +24,8 @@ const QuantityModal = ({
       onClick={onCancel}
     >
       <div
-        className="bg-card rounded-2xl p-8 w-80 flex flex-col items-center gap-6 shadow-2xl"
+        style={{ marginBottom: "10px" }}
+        className="bg-card rounded-2xl p-8 w-80 flex flex-col items-center  shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 상품 정보 */}
@@ -34,7 +35,7 @@ const QuantityModal = ({
         </div>
 
         {/* 수량 조절 */}
-        <div className="flex items-center">
+        <div style={{ marginBottom: "30px" }} className="flex items-center">
           <button
             onClick={onDecrease}
             disabled={quantity <= 1}
