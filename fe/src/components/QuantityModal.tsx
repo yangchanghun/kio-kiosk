@@ -24,7 +24,17 @@ const QuantityModal = ({
       onClick={onCancel}
     >
       <div
-        className="bg-card rounded-2xl p-8 w-80 flex flex-col items-center gap-6 shadow-2xl"
+        style={{
+          background: "#ffffff", // bg-card (보통 흰색이라 가정)
+          borderRadius: "16px", // rounded-2xl
+          padding: "32px", // p-8
+          width: "320px", // w-80 (80 * 4px = 320px)
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "24px", // gap-6
+          boxShadow: "0 25px 50px rgba(0,0,0,0.25)", // shadow-2xl 느낌
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* 상품 정보 */}
@@ -34,36 +44,107 @@ const QuantityModal = ({
         </div>
 
         {/* 수량 조절 */}
-        <div className="flex items-center gap-5">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "20px",
+          }}
+        >
           <button
             onClick={onDecrease}
             disabled={quantity <= 1}
-            className="w-12 h-12 rounded-full bg-primary text-primary-foreground text-2xl font-bold flex items-center justify-center disabled:opacity-30 transition-opacity"
+            style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "50%",
+              background: "#1d4ed8",
+              color: "white",
+              fontSize: "24px",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: "none",
+              cursor: quantity <= 1 ? "not-allowed" : "pointer",
+              opacity: quantity <= 1 ? 0.3 : 1,
+              transition: "opacity 0.2s ease",
+            }}
           >
             −
           </button>
-          <span className="text-3xl font-black text-card-foreground w-10 text-center">
+
+          <span
+            style={{
+              width: "40px",
+              textAlign: "center",
+              fontSize: "28px",
+              fontWeight: 900,
+              color: "#111",
+            }}
+          >
             {quantity}
           </span>
+
           <button
             onClick={onIncrease}
-            className="w-12 h-12 rounded-full bg-primary text-primary-foreground text-2xl font-bold flex items-center justify-center transition-opacity"
+            style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "50%",
+              background: "#1d4ed8",
+              color: "white",
+              fontSize: "24px",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: "none",
+              cursor: "pointer",
+              transition: "opacity 0.2s ease",
+            }}
           >
             +
           </button>
         </div>
-
         {/* 버튼 */}
-        <div className="flex gap-3 w-full">
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            width: "100%",
+          }}
+        >
           <button
             onClick={onCancel}
-            className="flex-1 py-3 rounded-full border-2 border-primary text-primary font-bold text-base"
+            style={{
+              flex: 1,
+              padding: "12px 0",
+              borderRadius: "9999px",
+              border: "2px solid #1d4ed8",
+              background: "white",
+              color: "#1d4ed8",
+              fontWeight: "bold",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
           >
             취소
           </button>
+
           <button
             onClick={onAdd}
-            className="flex-1 py-3 rounded-full bg-primary text-primary-foreground font-bold text-base"
+            style={{
+              flex: 1,
+              padding: "12px 0",
+              borderRadius: "9999px",
+              border: "none",
+              background: "#1d4ed8",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
           >
             담기
           </button>
