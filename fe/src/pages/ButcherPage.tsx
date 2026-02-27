@@ -114,7 +114,7 @@ export default function ButcherPage() {
       style={{ backgroundColor: bgColor }}
     >
       {/* Header */}
-      <div
+      {/* <div
         onClick={() => navigate("/", { state: { cart } })}
         style={{ WebkitTapHighlightColor: "transparent" }}
         className="absolute top-4 left-4 z-50 
@@ -122,7 +122,7 @@ export default function ButcherPage() {
              focus:outline-none active:bg-transparent"
       >
         <img src="/back.svg" className="w-16 h-16" />
-      </div>
+      </div> */}
 
       <header className="flex justify-center">
         {/* <h1 className="text-4xl text-white">{data.name}</h1> */}
@@ -190,7 +190,7 @@ export default function ButcherPage() {
         </div>
       </main>
       {/* Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg px-4 py-4 flex">
+      {/* <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg px-4 py-4 flex">
         <button
           onClick={cancelOrder}
           className="flex flex-1 text-xl items-center justify-center py-4 rounded-full border-2 border-red-500 text-red-500 font-bold mr-3"
@@ -216,6 +216,52 @@ export default function ButcherPage() {
                      rounded-full w-6 h-6 
                      flex items-center justify-center"
             >
+              {totalCount}
+            </span>
+          )}
+        </button>
+      </div> */}
+
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg px-4 py-4 flex items-center">
+        {/* 🔙 뒤로가기 박스 */}
+        <div
+          onClick={() => navigate("/", { state: { cart } })}
+          className="
+  
+      bg-white
+      rounded-lg
+
+      shadow-sm
+      flex items-center justify-center
+      mr-4
+      cursor-pointer
+      active:scale-95
+    "
+          style={{ WebkitTapHighlightColor: "transparent" }}
+        >
+          <img src="/back.svg" className="w-16 h-16" />
+        </div>
+
+        {/* 주문취소 */}
+        <button
+          onClick={cancelOrder}
+          className="flex flex-1 text-xl items-center justify-center py-4 rounded-full border-2 border-red-500 text-red-500 font-bold mr-3"
+        >
+          <img src="/canclecart.svg" className="w-16 h-16 mr-2" />
+          장바구니 비우기
+        </button>
+
+        {/* 장바구니 */}
+        <button
+          onClick={completeOrder}
+          disabled={totalCount === 0}
+          className="flex flex-1 items-center justify-center py-4 rounded-full border-2 border-black text-xl bg-white text-black font-bold relative"
+        >
+          <img src="/cart.svg" className="w-16 h-16 mr-2" />
+          <span>장바구니 보기</span>
+
+          {totalCount > 0 && (
+            <span className="absolute -top-2 -right-1 bg-yellow-400 text-black text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
               {totalCount}
             </span>
           )}
