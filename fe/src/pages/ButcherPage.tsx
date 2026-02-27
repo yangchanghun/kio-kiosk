@@ -166,7 +166,7 @@ export default function ButcherPage() {
           {menus.map((item) => (
             <div
               key={item.id}
-              className="w-1/2 px-2 mb-4 border-2 border-gray cursor-pointer"
+              className="w-1/2 px-2 mb-4 cursor-pointer"
               onClick={() =>
                 openModal({
                   id: item.id,
