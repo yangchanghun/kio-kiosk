@@ -36,7 +36,7 @@ const CategoryTabs = ({
   };
 
   return (
-    <div className="flex items-center gap-2 px-4">
+    <div className="flex items-center  px-4">
       <button
         onClick={() => scroll("left")}
         disabled={!canScrollLeft}
@@ -48,14 +48,14 @@ const CategoryTabs = ({
       <div
         ref={scrollRef}
         onScroll={checkScroll}
-        className="flex gap-2 overflow-x-auto scrollbar-hide flex-1"
+        className="flex mr-10 overflow-x-auto scrollbar-hide flex-1"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {categories.map((cat) => (
           <button
             key={cat.id}
             onClick={() => onSelect(cat.id)}
-            className={`flex-shrink-0 px-5 py-2 rounded-full text-sm font-bold border-2 transition-all duration-200 ${
+            className={`flex-shrink-0 mr-3 px-5 py-2 rounded-full text-sm font-bold border-2 transition-all duration-200 ${
               activeId === cat.id
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-transparent text-foreground border-foreground hover:bg-foreground/10"
@@ -69,7 +69,7 @@ const CategoryTabs = ({
       <button
         onClick={() => scroll("right")}
         disabled={!canScrollRight}
-        className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-foreground disabled:opacity-30"
+        className="flex-shrink-0 w-8 h-8  flex items-center justify-center text-foreground disabled:opacity-30"
       >
         <ChevronRight size={24} strokeWidth={3} />
       </button>

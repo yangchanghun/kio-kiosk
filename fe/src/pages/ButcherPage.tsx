@@ -95,11 +95,11 @@ export default function ButcherPage() {
       state: { cart, sectionId: id, sectionName: data.name, imgSrc: imgSrc },
     });
   };
-  const sectionColors: Record<string, string> = {
-    아하정육점: "#D71920",
-    경기상회: "#396556",
-    경기바다수산: "#3DB8CD",
-  };
+  // const sectionColors: Record<string, string> = {
+  //   아하정육점: "#D71920",
+  //   경기상회: "#396556",
+  //   경기바다수산: "#3DB8CD",
+  // };
   // const bgColor = sectionColors[data.name] ?? "#FFCC00";
   const bgColor = "white";
   // 아하정육점이면 #D71920

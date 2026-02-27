@@ -135,7 +135,7 @@ export default function MainPage() {
       </div>
       {/* 🛒 오른쪽 고정 장바구니 패널 */}
       <div className="fixed left-6 bottom-0.5 -translate-y-1/2 z-50">
-        <div className="bg-gray-300 rounded-xl shadow-xl flex  justify-center items-center py-6 px-4 w-[250px]">
+        <div className="bg-gray-300 rounded-xl shadow-xl flex  justify-center items-center py-4 px-2 w-[180px]">
           {/* 장바구니 보기 */}
 
           {/* 주문취소 */}
@@ -149,7 +149,7 @@ export default function MainPage() {
           <button
             onClick={completeOrder}
             disabled={totalCount === 0}
-            className="flex flex-col items-center text-sm font-bold relative disabled:opacity-40"
+            className="flex flex-col items-center text-sm font-bold relative "
           >
             <img src="/cart.svg" className="w-12 h-12 mb-2" />
             장바구니
