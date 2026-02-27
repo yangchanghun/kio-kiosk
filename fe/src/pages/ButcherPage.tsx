@@ -5,7 +5,7 @@ import MenuCard from "../components/MenuCard";
 import QuantityModal from "../components/QuantityModal";
 // import { ChevronLeft } from "lucide-react";
 import { useSectionDetail } from "@/api/useSectionDetail";
-import { ChevronLeft } from "lucide-react";
+// import { ChevronLeft } from "lucide-react";
 
 interface CartItem {
   id: number;
@@ -115,7 +115,6 @@ export default function ButcherPage() {
     >
       {/* Header */}
       <button
-        style={{ padding: "15px", paddingLeft: "30px", paddingRight: "30px" }}
         className="absolute top-4 left-4 z-50"
         onClick={() => navigate("/", { state: { cart } })}
       >
