@@ -227,13 +227,13 @@ export default function ButcherPage() {
         <div
           onClick={() => navigate("/", { state: { cart } })}
           className="
-  
+          
       bg-white
       rounded-lg
 
       shadow-sm
       flex items-center justify-center
-      mr-4
+      mr-8
       cursor-pointer
       active:scale-95
     "
