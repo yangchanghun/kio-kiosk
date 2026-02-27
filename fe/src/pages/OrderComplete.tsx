@@ -265,7 +265,7 @@ const OrderComplete = () => {
 
           <button
             onClick={handleCancelCard}
-            className="w-full py-4 rounded-full border-2 border-primary text-primary font-black text-lg"
+            className="w-full py-4 rounded-full border-2 border-primary text-primary font-black text-lg     focus:outline-none"
           >
             취소
           </button>
