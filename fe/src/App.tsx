@@ -137,14 +137,16 @@ export default function MainPage() {
       <div style={{ left: "60px" }} className="fixed  bottom-24 z-20">
         <div className="bg-white rounded-2xl border border-gray/50 shadow-2xl flex flex-col items-center py-6 px-4 w-[110px]">
           {/* 장바구니 */}
-          <button
-            onClick={completeOrder}
-            disabled={totalCount === 0}
+          <div
+            role="button"
+            onClick={() => {
+              if (totalCount === 0) return;
+              completeOrder();
+            }}
             style={{ WebkitTapHighlightColor: "transparent" }}
-            className="flex flex-col items-center text-sm font-bold relative mb-6
-             disabled:opacity-40
-             bg-transparent border-0 p-0
-             focus:outline-none active:bg-transparent"
+            className={`flex flex-col items-center text-sm font-bold relative mb-6
+              bg-white border-0 p-0
+              ${totalCount === 0 ? "opacity-40" : "cursor-pointer"}`}
           >
             <img src="/cart.svg" className="w-10 h-10 mb-2" />
             <span className="h-5 flex items-center">장바구니</span>
@@ -154,19 +156,20 @@ export default function MainPage() {
                 {totalCount}
               </span>
             )}
-          </button>
+          </div>
 
           {/* 취소 */}
-          <button
+          <div
+            role="button"
             onClick={cancelOrder}
             style={{ WebkitTapHighlightColor: "transparent" }}
-            className="flex flex-col items-center text-sm font-bold text-red-600
+            className="bg-white flex flex-col items-center text-sm font-bold text-red-600
              bg-transparent border-0 p-0
              focus:outline-none active:bg-transparent"
           >
             <img src="/canclecart.svg" className="w-10 h-10 mb-2" />
             <span className="h-5 flex items-center">취소</span>
-          </button>
+          </div>
         </div>
       </div>
 

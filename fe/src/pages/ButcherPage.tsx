@@ -114,7 +114,7 @@ export default function ButcherPage() {
       style={{ backgroundColor: bgColor }}
     >
       {/* Header */}
-      <button
+      <div
         onClick={() => navigate("/", { state: { cart } })}
         style={{ WebkitTapHighlightColor: "transparent" }}
         className="absolute top-4 left-4 z-50 
@@ -122,7 +122,7 @@ export default function ButcherPage() {
              focus:outline-none active:bg-transparent"
       >
         <img src="/back.svg" className="w-16 h-16" />
-      </button>
+      </div>
 
       <header className="flex justify-center">
         {/* <h1 className="text-4xl text-white">{data.name}</h1> */}
