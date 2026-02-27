@@ -140,7 +140,11 @@ export default function MainPage() {
           <button
             onClick={completeOrder}
             disabled={totalCount === 0}
-            className="flex flex-col items-center text-sm font-bold relative mb-6 disabled:opacity-40"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            className="flex flex-col items-center text-sm font-bold relative mb-6
+             disabled:opacity-40
+             bg-transparent border-0 p-0
+             focus:outline-none active:bg-transparent"
           >
             <img src="/cart.svg" className="w-10 h-10 mb-2" />
             <span className="h-5 flex items-center">장바구니</span>
@@ -155,7 +159,10 @@ export default function MainPage() {
           {/* 취소 */}
           <button
             onClick={cancelOrder}
-            className="flex flex-col items-center text-sm font-bold text-red-600"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            className="flex flex-col items-center text-sm font-bold text-red-600
+             bg-transparent border-0 p-0
+             focus:outline-none active:bg-transparent"
           >
             <img src="/canclecart.svg" className="w-10 h-10 mb-2" />
             <span className="h-5 flex items-center">취소</span>

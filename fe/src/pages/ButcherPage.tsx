@@ -115,8 +115,11 @@ export default function ButcherPage() {
     >
       {/* Header */}
       <button
-        className="absolute top-4 left-4 z-50"
         onClick={() => navigate("/", { state: { cart } })}
+        style={{ WebkitTapHighlightColor: "transparent" }}
+        className="absolute top-4 left-4 z-50 
+             bg-transparent border-0 p-0 
+             focus:outline-none active:bg-transparent"
       >
         <img src="/back.svg" className="w-16 h-16" />
       </button>
