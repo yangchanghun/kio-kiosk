@@ -115,7 +115,7 @@ export default function ButcherPage() {
       <button
         style={{ padding: "15px", paddingLeft: "30px", paddingRight: "30px" }}
         className="bg-black text-white text-xl  font-bold rounded-lg absolute top-4 left-4 z-50"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/", { state: { cart } })}
       >
         {/* <ChevronLeft color="white" size={50} strokeWidth={3} /> */}
         뒤로가기

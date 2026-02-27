@@ -168,6 +168,10 @@ const OrderComplete = () => {
         </button>
         <button
           onClick={() => {
+            if (sectionId === undefined) {
+              navigate("/", { state: { cart } });
+              return;
+            }
             navigate(`/section/${sectionId}`, {
               state: { cart, sectionId, imgSrc },
             });

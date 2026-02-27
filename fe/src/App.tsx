@@ -1,11 +1,28 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSections } from "./api/useSections";
-import { useRef } from "react";
-
+import { useRef, useState } from "react";
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
 export default function MainPage() {
   const navigate = useNavigate();
   const { sections, loading, error } = useSections();
 
+  const location = useLocation();
+
+  const [cart, setCart] = useState<CartItem[]>(location.state?.cart ?? []);
+  const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
+
+  const cancelOrder = () => setCart([]);
+
+  const completeOrder = () => {
+    navigate("/order-complete", {
+      state: { cart },
+    });
+  };
   const clickCountRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -86,7 +103,9 @@ export default function MainPage() {
             <div
               key={s.id}
               onClick={() =>
-                navigate(`/section/${s.id}`, { state: { imgSrc: s.image } })
+                navigate(`/section/${s.id}`, {
+                  state: { imgSrc: s.image, cart: cart },
+                })
               }
               className={`
                 bg-white
@@ -114,6 +133,35 @@ export default function MainPage() {
           ))}
         </div>
       </div>
+      {/* 🛒 오른쪽 고정 장바구니 패널 */}
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+        <div className="bg-gray-300 rounded-xl shadow-xl flex flex-col items-center py-6 px-4 w-[120px]">
+          {/* 장바구니 보기 */}
+          <button
+            onClick={completeOrder}
+            disabled={totalCount === 0}
+            className="flex flex-col items-center text-sm font-bold mb-8 relative disabled:opacity-40"
+          >
+            <img src="/cart.svg" className="w-12 h-12 mb-2" />
+            장바구니
+            {totalCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                {totalCount}
+              </span>
+            )}
+          </button>
+
+          {/* 주문취소 */}
+          <button
+            onClick={cancelOrder}
+            className="flex flex-col items-center text-sm font-bold text-red-600"
+          >
+            <img src="/canclecart.svg" className="w-12 h-12 mb-2" />
+            취소
+          </button>
+        </div>
+      </div>
+
       {/* 🔻 오른쪽 하단 로고 */}
       <div className="pb-8 text-sm text-gray-500 relative z-10">© kioedu</div>
     </div>
