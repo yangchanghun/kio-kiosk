@@ -24,7 +24,7 @@ const MenuCard = ({ name, price, image, count }: MenuCardProps) => {
         </span>
       )}
 
-      <div className="w-full h-40 bg-gray-50 flex items-center justify-center overflow-hidden rounded-t-2xl">
+      <div className="w-full h-40 bg-white flex items-center justify-center overflow-hidden rounded-t-2xl">
         {image ? (
           <img
             src={image}
