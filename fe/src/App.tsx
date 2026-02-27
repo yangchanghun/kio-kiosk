@@ -134,13 +134,22 @@ export default function MainPage() {
         </div>
       </div>
       {/* 🛒 오른쪽 고정 장바구니 패널 */}
-      <div className="fixed left-6 bottom-6 -translate-y-1/2 z-50">
-        <div className="bg-gray-300 rounded-xl shadow-xl flex flex-col items-center py-6 px-4 w-[120px]">
+      <div className="fixed left-6 bottom-0.5 -translate-y-1/2 z-50">
+        <div className="bg-gray-300 rounded-xl shadow-xl flex  justify-center items-center py-6 px-4 w-[250px]">
           {/* 장바구니 보기 */}
+
+          {/* 주문취소 */}
+          <button
+            onClick={cancelOrder}
+            className="flex flex-col items-center mr-10 text-sm font-bold text-red-600"
+          >
+            <img src="/canclecart.svg" className="w-12 h-12 mb-2" />
+            취소
+          </button>
           <button
             onClick={completeOrder}
             disabled={totalCount === 0}
-            className="flex flex-col items-center text-sm font-bold mb-8 relative disabled:opacity-40"
+            className="flex flex-col items-center text-sm font-bold relative disabled:opacity-40"
           >
             <img src="/cart.svg" className="w-12 h-12 mb-2" />
             장바구니
@@ -149,15 +158,6 @@ export default function MainPage() {
                 {totalCount}
               </span>
             )}
-          </button>
-
-          {/* 주문취소 */}
-          <button
-            onClick={cancelOrder}
-            className="flex flex-col items-center text-sm font-bold text-red-600"
-          >
-            <img src="/canclecart.svg" className="w-12 h-12 mb-2" />
-            취소
           </button>
         </div>
       </div>

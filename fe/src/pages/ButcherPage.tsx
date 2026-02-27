@@ -100,7 +100,8 @@ export default function ButcherPage() {
     경기상회: "#396556",
     경기바다수산: "#3DB8CD",
   };
-  const bgColor = sectionColors[data.name] ?? "#FFCC00";
+  // const bgColor = sectionColors[data.name] ?? "#FFCC00";
+  const bgColor = "white";
   // 아하정육점이면 #D71920
   // 경기상회이면 #39656
   // 경기수산이면 #3DB8CD
@@ -115,10 +116,10 @@ export default function ButcherPage() {
       {/* Header */}
       <button
         style={{ padding: "15px", paddingLeft: "30px", paddingRight: "30px" }}
-        className="rounded-lg absolute top-4 left-4 z-50"
+        className="absolute top-4 left-4 z-50"
         onClick={() => navigate("/", { state: { cart } })}
       >
-        <ChevronLeft color="white" size={70} strokeWidth={3} />
+        <ChevronLeft color="black" size={70} strokeWidth={5} />
       </button>
 
       <header className="flex justify-center">
@@ -129,7 +130,6 @@ export default function ButcherPage() {
           w-[250px]
            bg-white
                 rounded-3xl
-                shadow-lg
                 flex
                 justify-center
                 items-center
@@ -164,7 +164,7 @@ export default function ButcherPage() {
           {menus.map((item) => (
             <div
               key={item.id}
-              className="w-1/2 px-2 mb-4 cursor-pointer"
+              className="w-1/2 px-2 mb-4 border-2 border-gray cursor-pointer"
               onClick={() =>
                 openModal({
                   id: item.id,
