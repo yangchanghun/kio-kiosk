@@ -134,7 +134,7 @@ export default function MainPage() {
         </div>
       </div>
       {/* 🛒 오른쪽 고정 장바구니 패널 */}
-      <div className="fixed left-10 bottom-24 z-20">
+      <div style={{ left: "60px" }} className="fixed  bottom-24 z-20">
         <div className="bg-white rounded-2xl shadow-2xl flex flex-col items-center py-6 px-4 w-[110px]">
           {/* 장바구니 */}
           <button
