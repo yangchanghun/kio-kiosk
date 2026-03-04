@@ -19,30 +19,30 @@ const OrderComplete = () => {
   const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
   const sectionId = location.state?.sectionId; // 🔥 추가
   const [step, setStep] = useState<PaymentStep>("summary");
-  const [countdown, setCountdown] = useState(7);
+  // const [countdown, setCountdown] = useState(7);
   const [returnCountdown, setReturnCountdown] = useState(5);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const returnRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [printTrigger, setPrintTrigger] = useState(0);
+  // const [printTrigger, setPrintTrigger] = useState(0);
   const imgSrc = location.state?.imgSrc || ""; // 🔥 이미지 경로 받아오기
   // 카드 꽂기 → 10초 카운트다운 후 결제 완료
-  useEffect(() => {
-    if (step !== "card") return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setCountdown(7);
-    intervalRef.current = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          setPrintTrigger((v) => v + 1); // 🔥 추가
-          clearInterval(intervalRef.current!);
-          setStep("done");
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(intervalRef.current!);
-  }, [step]);
+  // useEffect(() => {
+  //   if (step !== "card") return;
+  //   // eslint-disable-next-line react-hooks/set-state-in-effect
+  //   setCountdown(7);
+  //   intervalRef.current = setInterval(() => {
+  //     setCountdown((prev) => {
+  //       if (prev <= 1) {
+  //         setPrintTrigger((v) => v + 1); // 🔥 추가
+  //         clearInterval(intervalRef.current!);
+  //         setStep("done");
+  //         return 0;
+  //       }
+  //       return prev - 1;
+  //     });
+  //   }, 1000);
+  //   return () => clearInterval(intervalRef.current!);
+  // }, [step]);
 
   // 결제 완료 → 5초 후 처음으로
   // useEffect(() => {
@@ -62,17 +62,6 @@ const OrderComplete = () => {
   //   return () => clearInterval(returnRef.current!);
   // }, [step, navigate]);
   // 🔥 printTrigger 기준으로 프린트 실행
-  useEffect(() => {
-    if (printTrigger === 0) return;
-
-    if (window.AndroidBridge?.printReceipt) {
-      try {
-        window.AndroidBridge.printReceipt(JSON.stringify(cart));
-      } catch (e) {
-        console.log("프린트 실패:", e);
-      }
-    }
-  }, [printTrigger]);
 
   useEffect(() => {
     if (step !== "done") return;
@@ -93,6 +82,18 @@ const OrderComplete = () => {
 
     return () => clearInterval(returnRef.current!);
   }, [step, navigate]);
+
+  const handleConfirmPayment = () => {
+    if (window.AndroidBridge?.printReceipt) {
+      try {
+        window.AndroidBridge.printReceipt(JSON.stringify(cart));
+      } catch (e) {
+        console.log("프린트 실패:", e);
+      }
+    }
+
+    setStep("done");
+  };
 
   const handleCancelCard = () => {
     clearInterval(intervalRef.current!);
@@ -237,7 +238,7 @@ const OrderComplete = () => {
               카드를 꽂아주세요
             </p>
             <p className="text-muted-foreground mt-1 font-semibold">
-              결제를 진행합니다
+              확인 클릭 시 결제가 완료됩니다
             </p>
           </div>
 
@@ -250,7 +251,7 @@ const OrderComplete = () => {
           </div>
 
           {/* 카운트다운 바 */}
-          <div className="w-full">
+          {/* <div className="w-full">
             <div className="flex justify-between text-xs text-muted-foreground mb-2">
               <span>결제 처리 중...</span>
               <span>{countdown}초</span>
@@ -261,8 +262,14 @@ const OrderComplete = () => {
                 style={{ width: `${((7 - countdown) / 7) * 100}%` }}
               />
             </div>
-          </div>
+          </div> */}
 
+          <button
+            onClick={handleConfirmPayment}
+            className="w-full py-4 rounded-full border-2 border-primary text-primary font-black text-lg     focus:outline-none"
+          >
+            확인
+          </button>
           <button
             onClick={handleCancelCard}
             className="w-full py-4 rounded-full border-2 border-primary text-primary font-black text-lg     focus:outline-none"
