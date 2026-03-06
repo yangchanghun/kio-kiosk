@@ -25,19 +25,15 @@ export default function DebugPage() {
   };
 
   const testPrint = () => {
-    const cart = [
-      { name: "물고기", price: 3000, quantity: 2 },
-      { name: "새우", price: 5000, quantity: 1 },
-    ];
+    addLog("TEST PRINT 요청");
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = (window as any).AndroidBridge?.printReceipt(
-        JSON.stringify(cart),
-      );
-      addLog("프린트 호출 결과: " + result);
+      const result = (window as any).AndroidBridge.printTest();
+
+      addLog("결과: " + result);
     } catch (e) {
-      addLog("프린트 에러: " + e);
+      addLog("에러: " + e);
     }
   };
 
