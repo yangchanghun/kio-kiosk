@@ -17,10 +17,10 @@ export default function DebugPage() {
 
   const checkBridge = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((window as any).AndroidBridge) {
-      addLog("AndroidBridge 존재");
+    if ((window as any).AndroidBridge.PrintTest()) {
+      addLog("PrintTest 존재");
     } else {
-      addLog("AndroidBridge 없음");
+      addLog("PrintTest 없음");
     }
   };
 
