@@ -37,7 +37,7 @@ export default function MainPage() {
     }
 
     if (clickCountRef.current >= 5) {
-      navigate("/admin");
+      navigate("/debug");
       clickCountRef.current = 0;
       if (timerRef.current) clearTimeout(timerRef.current);
     }

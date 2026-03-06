@@ -9,6 +9,7 @@ import App from "./App";
 
 import SectionManagePage from "./admin/SectionManagePage";
 import SectionDetailPage from "./admin/SectionDetailPage";
+import DebugPage from "./pages/DebugPage";
 // import TestPage from "./pages/TestPage";
 
 const queryClient = new QueryClient();
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         {/* <Route path="/" element={<TestPage />} /> */}
         <Route path="/" element={<App />} />
+        <Route path="/debug" element={<DebugPage />} />
         <Route path="/admin" element={<SectionManagePage />} />
         <Route
           path="/admin/sections/:sectionId"
