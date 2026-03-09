@@ -27,6 +27,11 @@ export default function CartList() {
 
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
+  const lastScannedRef = useRef<{ barcode: string; time: number }>({
+    barcode: "",
+    time: 0,
+  });
+
   // 1. 서버에서 상품 목록 로드
   useEffect(() => {
     axios.get(`https://smartkio.kioedu.co.kr/api/kioedu/menus`).then((res) => {
@@ -48,6 +53,19 @@ export default function CartList() {
       // console.log(products);
       // console.log(raw);
       if (!raw) return;
+
+      const now = Date.now();
+      // 동일한 바코드가 500ms(0.5초) 이내에 다시 들어오면 무시
+      if (
+        raw === lastScannedRef.current.barcode &&
+        now - lastScannedRef.current.time < 500
+      ) {
+        console.log("중복 스캔 차단됨:", raw);
+        setInputValue(""); // 입력창만 비우고 리턴
+        return;
+      }
+
+      lastScannedRef.current = { barcode: raw, time: now };
 
       // 한글 입력 방지 체크
       if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(raw)) {
