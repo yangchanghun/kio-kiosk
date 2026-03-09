@@ -6,6 +6,7 @@ interface Props {
     id: number;
     name: string;
     price: number;
+    barcode_number: string;
   };
   onClose: () => void;
   onSuccess: () => void;
@@ -17,11 +18,14 @@ export default function MenuUpdateModal({ menu, onClose, onSuccess }: Props) {
   const [name, setName] = useState(menu.name);
   const [price, setPrice] = useState<number>(menu.price);
   const [image, setImage] = useState<File | null>(null);
+  console.log(menu);
+  const [barcode, setBarcode] = useState(menu.barcode_number);
 
   const handleUpdate = async () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("price", String(price));
+    formData.append("barcode_number", String(barcode)); // 임시 바코드, 실제로는 입력받아야 함
     if (image) formData.append("image", image);
 
     try {
@@ -55,7 +59,13 @@ export default function MenuUpdateModal({ menu, onClose, onSuccess }: Props) {
           onChange={(e) => setPrice(Number(e.target.value))}
           className="w-full border rounded-lg px-3 py-2 mb-4"
         />
-
+        <input
+          placeholder="바코드넘버입력칸"
+          type="text"
+          value={barcode}
+          onChange={(e) => setBarcode(e.target.value)}
+          className="w-full border rounded-lg px-3 py-2 mb-4"
+        />
         <input
           type="file"
           onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}

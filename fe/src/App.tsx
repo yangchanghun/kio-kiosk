@@ -37,7 +37,7 @@ export default function MainPage() {
     }
 
     if (clickCountRef.current >= 5) {
-      navigate("/debug");
+      navigate("/admin");
       clickCountRef.current = 0;
       if (timerRef.current) clearTimeout(timerRef.current);
     }
@@ -137,6 +137,18 @@ export default function MainPage() {
       <div style={{ left: "60px" }} className="fixed  bottom-16 z-20">
         <div className="bg-white rounded-2xl border border-gray/50 shadow-2xl flex flex-col items-center py-6 px-4 w-[110px]">
           {/* 장바구니 */}
+          <div
+            onClick={() => {
+              navigate("/cart");
+            }}
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            className={`flex flex-col items-center text-sm font-bold relative mb-6
+              bg-white border-0 p-0
+             `}
+          >
+            <span className="h-5 flex items-center">셀프계산대</span>
+            <span className="h-5 flex items-center">체험</span>
+          </div>
           <div
             role="button"
             onClick={() => {

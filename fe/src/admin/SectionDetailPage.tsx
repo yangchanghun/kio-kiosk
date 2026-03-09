@@ -19,6 +19,7 @@ interface Menu {
   name: string;
   price: number;
   category_id: number;
+  barcode_number: string;
 }
 
 const API_URL = "https://smartkio.kioedu.co.kr/api/kioedu";

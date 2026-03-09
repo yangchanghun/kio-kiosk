@@ -10,6 +10,8 @@ import App from "./App";
 import SectionManagePage from "./admin/SectionManagePage";
 import SectionDetailPage from "./admin/SectionDetailPage";
 import DebugPage from "./pages/DebugPage";
+import Cart from "./pages/selfcounter/Cart";
+import CartOrderComplete from "./pages/selfcounter/CartOrderComplete";
 // import TestPage from "./pages/TestPage";
 
 const queryClient = new QueryClient();
@@ -27,6 +29,8 @@ createRoot(document.getElementById("root")!).render(
         />
         <Route path="/section/:id" element={<ButcherPage />} />
         <Route path="/order-complete" element={<OrderComplete />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart/order-complete" element={<CartOrderComplete />} />
       </Routes>
     </BrowserRouter>
   </QueryClientProvider>,

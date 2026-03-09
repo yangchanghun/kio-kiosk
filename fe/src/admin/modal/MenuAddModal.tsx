@@ -18,6 +18,8 @@ export default function MenuAddModal({
   const [price, setPrice] = useState<number | "">("");
   const [image, setImage] = useState<File | null>(null);
 
+  const [barcode, setBarcode] = useState("");
+
   const handleCreate = async () => {
     if (!name || !price) return;
 
@@ -25,6 +27,7 @@ export default function MenuAddModal({
     formData.append("category_id", String(categoryId));
     formData.append("name", name);
     formData.append("price", String(price));
+    formData.append("barcode_number", String(barcode)); // 임시 바코드, 실제로는 입력받아야 함
     if (image) formData.append("image", image);
 
     try {
@@ -60,7 +63,13 @@ export default function MenuAddModal({
           onChange={(e) => setPrice(Number(e.target.value))}
           className="w-full border rounded-lg px-3 py-2 mb-4"
         />
-
+        <input
+          type="text"
+          placeholder="바코드"
+          value={barcode}
+          onChange={(e) => setBarcode(e.target.value)}
+          className="w-full border rounded-lg px-3 py-2 mb-4"
+        />
         <input
           type="file"
           onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
