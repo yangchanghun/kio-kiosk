@@ -106,7 +106,9 @@ export default function CartList() {
       setInputValue(""); // 입력창 초기화
     }
   };
-
+  const removeItem = (id: number) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
   const totalPrice = useMemo(
     () => cart.reduce((s, i) => s + i.price * i.quantity, 0),
     [cart],
@@ -115,7 +117,19 @@ export default function CartList() {
     () => cart.reduce((s, i) => s + i.quantity, 0),
     [cart],
   );
-
+  // 1. 수량 변경 로직 (증가/감소)
+  const updateQuantity = (id: number, delta: number) => {
+    setCart((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          const newQuantity = item.quantity + delta;
+          // 최소 수량은 1개로 제한 (0개가 되면 삭제하고 싶다면 아래 removeItem 로직 참고)
+          return { ...item, quantity: newQuantity < 1 ? 1 : newQuantity };
+        }
+        return item;
+      }),
+    );
+  };
   return (
     <div className="h-full px-4 md:px-10 pb-6 flex flex-col relative">
       {/* 💡 숨겨진 스캔 전용 인풋 */}
@@ -149,28 +163,64 @@ export default function CartList() {
             cart.map((item) => (
               <div
                 key={item.id}
-                className="flex justify-between items-center text-xl border-b pb-2"
+                className="flex justify-between items-center text-xl border-b pb-4"
               >
-                <span className="flex-1 font-bold">{item.name}</span>
-                <span className="w-20 text-center text-blue-600 font-black">
-                  {item.quantity}개
-                </span>
-                <span className="w-32 text-right">
-                  {item.price.toLocaleString()}원
-                </span>
+                <div className="flex-1 flex flex-col">
+                  <span className="font-bold">{item.name}</span>
+                  <span className="text-sm text-gray-400">
+                    {item.price.toLocaleString()}원
+                  </span>
+                </div>
+
+                {/* 💡 수량 조절 버튼 영역 */}
+                <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1 mr-4">
+                  <button
+                    onClick={() => updateQuantity(item.id, -1)}
+                    className="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm text-gray-600 active:bg-gray-200"
+                  >
+                    -
+                  </button>
+                  <span className="w-8 text-center font-black text-blue-600">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(item.id, 1)}
+                    className="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm text-gray-600 active:bg-gray-200"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <span className="w-24 text-right font-bold">
+                    {(item.price * item.quantity).toLocaleString()}원
+                  </span>
+                  {/* 삭제 버튼 (X) */}
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    className="text-gray-300 hover:text-red-500 text-sm ml-2"
+                  >
+                    ✕
+                  </button>
+                </div>
               </div>
             ))
           )}
         </div>
 
         {/* 결제 영역 */}
-        <div className="mt-6 border-t pt-6 flex gap-4 h-32">
-          <div className="flex-1 flex flex-col justify-center">
-            <div className="flex justify-between text-gray-600 text-lg">
+        <div className="mt-10 border-t pt-6 flex gap-4 h-32">
+          <div className="w-1/2 flex flex-col justify-center space-y-2 pr-6">
+            <div className="flex justify-between text-lg">
               <span>합계</span>
               <span>{totalPrice.toLocaleString()}원</span>
             </div>
-            <div className="flex justify-between text-2xl font-black mt-2 text-red-600">
+            <div className="flex justify-between text-lg text-red-500">
+              <span>할인</span>
+              <span>0원</span>
+            </div>
+
+            <div className="flex justify-between font-bold text-xl">
               <span>결제금액</span>
               <span>{totalPrice.toLocaleString()}원</span>
             </div>
