@@ -12,7 +12,7 @@ import SectionDetailPage from "./admin/SectionDetailPage";
 import DebugPage from "./pages/DebugPage";
 import Cart from "./pages/selfcounter/Cart";
 import CartOrderComplete from "./pages/selfcounter/CartOrderComplete";
-// import CardTest from "./card/CardTest";
+import CardTest from "./card/CardTest";
 // import TestPage from "./pages/TestPage";
 
 const queryClient = new QueryClient();
@@ -22,7 +22,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         {/* <Route path="/" element={<TestPage />} /> */}
         <Route path="/" element={<App />} />
-        {/* <Route path="/card" element={<CardTest />} /> */}
+        <Route path="/card" element={<CardTest />} />
         <Route path="/debug" element={<DebugPage />} />
         <Route path="/admin" element={<SectionManagePage />} />
         <Route

@@ -3,7 +3,9 @@ export {};
 declare global {
   interface Window {
     AndroidBridge?: {
-      printReceipt: (orderJson: string) => string;
+      openCardApp: (amount: string) => void;
+      printReceipt?: (data: string) => void;
     };
+    onCardPaymentComplete?: () => void;
   }
 }
