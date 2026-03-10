@@ -13,7 +13,6 @@ type PaymentStep = "summary" | "card" | "done";
 const OrderComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const sectionName = location.state?.sectionName || "에러"; // 🔥 섹션 이름 받아오기
   const [cart, setCart] = useState<CartItem[]>(location.state?.cart || []);
   const totalPrice = cart.reduce((s, i) => s + i.price * i.quantity, 0);
   const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
@@ -63,12 +62,7 @@ const OrderComplete = () => {
     setStep("summary");
   };
 
-  const sectionColors: Record<string, string> = {
-    아하정육점: "#D71920",
-    경기상회: "#396556",
-    경기바다수산: "#3DB8CD",
-  };
-  const bgColor = sectionColors[sectionName] ?? "#FFCC00";
+  const bgColor = "#FFCC00";
   console.log(bgColor);
 
   const removeItem = (id: number) => {
@@ -199,7 +193,7 @@ const OrderComplete = () => {
   // ── 카드 꽂기 화면 ──────────────────────────────────────
   if (step === "card") {
     return (
-      <div className="min-h-screen bg-[#D71920] flex flex-col items-center justify-center gap-8 px-6">
+      <div className="min-h-screen  flex flex-col items-center justify-center gap-8 px-6">
         <div className="bg-card rounded-3xl p-10 w-full max-w-sm shadow-2xl flex flex-col items-center gap-6">
           {/* 카드 아이콘 애니메이션 */}
           <div className="relative flex items-center justify-center">
@@ -277,7 +271,7 @@ const OrderComplete = () => {
 
           <button
             onClick={handleConfirmPayment}
-            className="w-full py-4 rounded-full border-2 border-primary text-primary font-black text-lg     focus:outline-none"
+            className="w-full py-4 rounded-full bg-black text-white border-2 border-primary text-primary font-black text-lg     focus:outline-none"
           >
             확인
           </button>
