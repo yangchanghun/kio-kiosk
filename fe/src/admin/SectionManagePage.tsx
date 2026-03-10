@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -47,13 +47,36 @@ export default function SectionManagePage() {
     await axios.delete(`${API_URL}/manage/section/${id}/`);
     fetchSections();
   };
+  const clickCountRef = useRef(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const handleTitleClick = () => {
+    clickCountRef.current += 1;
+
+    if (!timerRef.current) {
+      timerRef.current = setTimeout(() => {
+        clickCountRef.current = 0;
+        timerRef.current = null;
+      }, 1500);
+    }
+
+    if (clickCountRef.current >= 5) {
+      navigate("/testpage");
+      clickCountRef.current = 0;
+      if (timerRef.current) clearTimeout(timerRef.current);
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="bg-white rounded-xl shadow-md p-8">
         {/* 헤더 */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800">섹션 관리</h1>
+          <h1
+            onClick={handleTitleClick}
+            className="text-2xl font-bold text-gray-800"
+          >
+            섹션 관리
+          </h1>
           <button
             onClick={() => setModalOpen(true)}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"

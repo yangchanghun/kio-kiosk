@@ -22,7 +22,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         {/* <Route path="/" element={<TestPage />} /> */}
         <Route path="/" element={<App />} />
-        <Route path="/card" element={<CardTest />} />
+        <Route path="/testpage" element={<CardTest />} />
         <Route path="/debug" element={<DebugPage />} />
         <Route path="/admin" element={<SectionManagePage />} />
         <Route

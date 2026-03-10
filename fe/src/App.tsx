@@ -141,7 +141,7 @@ export default function MainPage() {
     }
 
     if (clickCountRef.current >= 5) {
-      navigate("/card");
+      navigate("/admin");
       clickCountRef.current = 0;
       if (timerRef.current) clearTimeout(timerRef.current);
     }

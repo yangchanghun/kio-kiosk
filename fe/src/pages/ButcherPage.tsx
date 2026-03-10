@@ -46,7 +46,7 @@ export default function ButcherPage() {
     time: 0,
   });
 
-  const [debugScan, setDebugScan] = useState("");
+  // const [debugScan, setDebugScan] = useState("");
 
   // 여기@@@
   useEffect(() => {
@@ -129,9 +129,9 @@ export default function ButcherPage() {
             },
           ];
         });
-        setDebugScan(`성공: ${matched.name}`);
+        // setDebugScan(`성공: ${matched.name}`);
       } else {
-        setDebugScan(`실패: ${scannedBarcode}`);
+        // setDebugScan(`실패: ${scannedBarcode}`);
         alert(`상품 정보가 없습니다. (${scannedBarcode})`);
       }
 
@@ -278,9 +278,9 @@ export default function ButcherPage() {
           onSelect={setActiveCategory}
         />
       </div>
-      <div className="text-red-500 font-mono text-center mb-4">
+      {/* <div className="text-red-500 font-mono text-center mb-4">
         스캔 상태: {debugScan || "대기 중..."}
-      </div>
+      </div> */}
       {/* Menu Grid */}
       {/* Menu Grid */}
       <main className="flex-1 px-4 pb-4">
