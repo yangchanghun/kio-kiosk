@@ -32,6 +32,7 @@ export default function ButcherPage() {
   const location = useLocation();
   const imgSrc = location.state?.imgSrc || "";
   const { data, loading } = useSectionDetail(id);
+  const [debugScan, setDebugScan] = useState("");
   // 여기@@@
   const [products, setProducts] = useState<Product[]>([]);
   const [inputValue, setInputValue] = useState(""); // 스캔 데이터를 담을 state
@@ -126,7 +127,9 @@ export default function ButcherPage() {
             },
           ];
         });
+        setDebugScan(`성공: ${matched.name}`);
       } else {
+        setDebugScan(`실패: ${scannedBarcode}`);
         alert(`상품 정보가 없습니다. (${scannedBarcode})`);
       }
 
@@ -273,7 +276,9 @@ export default function ButcherPage() {
           onSelect={setActiveCategory}
         />
       </div>
-
+      <div className="text-red-500 font-mono text-center mb-4">
+        스캔 상태: {debugScan || "대기 중..."}
+      </div>
       {/* Menu Grid */}
       {/* Menu Grid */}
       <main className="flex-1 px-4 pb-4">
