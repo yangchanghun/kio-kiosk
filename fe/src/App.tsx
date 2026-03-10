@@ -137,7 +137,7 @@ export default function MainPage() {
       <div style={{ left: "60px" }} className="fixed  bottom-16 z-20">
         <div className="bg-white rounded-2xl border border-gray/50 shadow-2xl flex flex-col items-center py-6 px-4 w-[110px]">
           {/* 장바구니 */}
-          <div
+          {/* <div
             onClick={() => {
               navigate("/cart");
             }}
@@ -148,7 +148,7 @@ export default function MainPage() {
           >
             <span className="h-5 flex items-center">셀프계산대</span>
             <span className="h-5 flex items-center">체험</span>
-          </div>
+          </div> */}
           <div
             role="button"
             onClick={() => {

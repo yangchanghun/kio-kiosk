@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
 interface CartItem {
-  id: string;
+  id: number;
   name: string;
   price: number;
   quantity: number;
@@ -14,54 +14,17 @@ const OrderComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const sectionName = location.state?.sectionName || "에러"; // 🔥 섹션 이름 받아오기
-  const cart: CartItem[] = location.state?.cart ?? [];
+  const [cart, setCart] = useState<CartItem[]>(location.state?.cart || []);
   const totalPrice = cart.reduce((s, i) => s + i.price * i.quantity, 0);
   const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
   const sectionId = location.state?.sectionId; // 🔥 추가
   const [step, setStep] = useState<PaymentStep>("summary");
-  // const [countdown, setCountdown] = useState(7);
+
   const [returnCountdown, setReturnCountdown] = useState(5);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const returnRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  // const [printTrigger, setPrintTrigger] = useState(0);
-  const imgSrc = location.state?.imgSrc || ""; // 🔥 이미지 경로 받아오기
-  // 카드 꽂기 → 10초 카운트다운 후 결제 완료
-  // useEffect(() => {
-  //   if (step !== "card") return;
-  //   // eslint-disable-next-line react-hooks/set-state-in-effect
-  //   setCountdown(7);
-  //   intervalRef.current = setInterval(() => {
-  //     setCountdown((prev) => {
-  //       if (prev <= 1) {
-  //         setPrintTrigger((v) => v + 1); // 🔥 추가
-  //         clearInterval(intervalRef.current!);
-  //         setStep("done");
-  //         return 0;
-  //       }
-  //       return prev - 1;
-  //     });
-  //   }, 1000);
-  //   return () => clearInterval(intervalRef.current!);
-  // }, [step]);
 
-  // 결제 완료 → 5초 후 처음으로
-  // useEffect(() => {
-  //   if (step !== "done") return;
-  //   // eslint-disable-next-line react-hooks/set-state-in-effect
-  //   setReturnCountdown(5);
-  //   returnRef.current = setInterval(() => {
-  //     setReturnCountdown((prev) => {
-  //       if (prev <= 1) {
-  //         clearInterval(returnRef.current!);
-  //         navigate("/");
-  //         return 0;
-  //       }
-  //       return prev - 1;
-  //     });
-  //   }, 1000);
-  //   return () => clearInterval(returnRef.current!);
-  // }, [step, navigate]);
-  // 🔥 printTrigger 기준으로 프린트 실행
+  const imgSrc = location.state?.imgSrc || ""; // 🔥 이미지 경로 받아오기
 
   useEffect(() => {
     if (step !== "done") return;
@@ -108,6 +71,23 @@ const OrderComplete = () => {
   const bgColor = sectionColors[sectionName] ?? "#FFCC00";
   console.log(bgColor);
 
+  const removeItem = (id: number) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const updateQuantity = (id: number, delta: number) => {
+    setCart((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          const newQuantity = item.quantity + delta;
+          // 최소 수량은 1개로 제한 (0개가 되면 삭제하고 싶다면 아래 removeItem 로직 참고)
+          return { ...item, quantity: newQuantity < 1 ? 1 : newQuantity };
+        }
+        return item;
+      }),
+    );
+  };
+
   // ── 주문 요약 화면 ──────────────────────────────────────
   if (step === "summary") {
     return (
@@ -140,14 +120,45 @@ const OrderComplete = () => {
               {cart.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between text-1xl text-card-foreground"
+                  className="flex items-center justify-between text-card-foreground"
                 >
-                  <span>
-                    {item.name} × {item.quantity}
-                  </span>
-                  <span className="font-bold">
-                    {(item.price * item.quantity).toLocaleString()}원
-                  </span>
+                  {/* 왼쪽 : 상품 */}
+                  <div className="flex flex-col">
+                    <span className="font-semibold">{item.name}</span>
+                    <span className="text-sm text-gray-500">
+                      {(item.price * item.quantity).toLocaleString()}원
+                    </span>
+                  </div>
+
+                  {/* 오른쪽 : 수량조절 */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1">
+                      <button
+                        onClick={() => updateQuantity(item.id, -1)}
+                        className="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm text-gray-600 active:bg-gray-200"
+                      >
+                        -
+                      </button>
+
+                      <span className="w-8 text-center font-black text-blue-600">
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        onClick={() => updateQuantity(item.id, 1)}
+                        className="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm text-gray-600 active:bg-gray-200"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="text-black font-bold hover:text-red-500 text-lg"
+                    >
+                      ✕
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

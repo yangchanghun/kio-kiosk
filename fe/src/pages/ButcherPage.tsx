@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTabs";
 import MenuCard from "../components/MenuCard";
 import QuantityModal from "../components/QuantityModal";
 // import { ChevronLeft } from "lucide-react";
 import { useSectionDetail } from "@/api/useSectionDetail";
+import axios from "axios";
 // import { ChevronLeft } from "lucide-react";
 
 interface CartItem {
@@ -19,18 +20,121 @@ interface SelectedItem {
   name: string;
   price: number;
 }
-
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  barcode_number: string;
+}
 export default function ButcherPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
   const imgSrc = location.state?.imgSrc || "";
   const { data, loading } = useSectionDetail(id);
-
+  // 여기@@@
+  const [products, setProducts] = useState<Product[]>([]);
+  const [inputValue, setInputValue] = useState(""); // 스캔 데이터를 담을 state
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [cart, setCart] = useState<CartItem[]>(location.state?.cart ?? []);
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [modalQty, setModalQty] = useState(1);
+  const hiddenInputRef = useRef<HTMLInputElement>(null);
+  const lastScannedRef = useRef<{ barcode: string; time: number }>({
+    barcode: "",
+    time: 0,
+  });
+
+  // 여기@@@
+  useEffect(() => {
+    axios.get(`https://smartkio.kioedu.co.kr/api/kioedu/menus`).then((res) => {
+      // API 구조에 맞춰 product 배열 설정
+      console.log(res.data);
+      setProducts(res.data || []);
+    });
+  }, []);
+
+  const onDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const raw = inputValue.trim();
+      // console.log(products);
+      // console.log(raw);
+      if (!raw) return;
+
+      const now = Date.now();
+      // 동일한 바코드가 500ms(0.5초) 이내에 다시 들어오면 무시
+      if (
+        raw === lastScannedRef.current.barcode &&
+        now - lastScannedRef.current.time < 500
+      ) {
+        console.log("중복 스캔 차단됨:", raw);
+        setInputValue(""); // 입력창만 비우고 리턴
+        return;
+      }
+
+      lastScannedRef.current = { barcode: raw, time: now };
+
+      // 한글 입력 방지 체크
+      if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(raw)) {
+        setInputValue("");
+        alert("키보드 상태를 영문으로 변경해주세요.");
+        return;
+      }
+
+      let scannedBarcode = "";
+
+      // [파싱 로직] JSON 인지 일반 숫자인지 확인
+      try {
+        const parsed = JSON.parse(raw);
+        scannedBarcode = parsed.barcode_number
+          ? parsed.barcode_number.toString()
+          : raw;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        // JSON이 아니면 정규식으로 숫자만 추출 시도하거나 전체를 바코드로 인식
+        const match = raw.match(/barcode_number[:"]*([0-9]+)/);
+        scannedBarcode = match ? match[1] : raw;
+      }
+      // [장바구니 추가 로직]
+      const matched = products.find((p) => {
+        // console.log("매칭 시도:", p.barcode_number, scannedBarcode);
+        // 결과값을 명시적으로 return 해줘야 합니다.
+        return String(p.barcode_number) === String(scannedBarcode);
+      });
+
+      if (matched) {
+        setCart((prevCart) => {
+          const exist = prevCart.find((item) => item.id === matched.id);
+          if (exist) {
+            return prevCart.map((item) =>
+              item.id === matched.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item,
+            );
+          }
+          return [
+            ...prevCart,
+            {
+              id: matched.id,
+              name: matched.name,
+              price: matched.price,
+              quantity: 1,
+            },
+          ];
+        });
+      } else {
+        alert(`상품 정보가 없습니다. (${scannedBarcode})`);
+      }
+
+      setInputValue(""); // 입력창 초기화
+    }
+  };
+
+  // 여기
 
   // 🔥 첫 카테고리 자동 선택 (Hook은 항상 return 위에!)
   useEffect(() => {
@@ -113,6 +217,17 @@ export default function ButcherPage() {
       className={`min-h-screen flex flex-col pb-28`}
       style={{ backgroundColor: bgColor }}
     >
+      <input
+        ref={hiddenInputRef}
+        type="text"
+        value={inputValue}
+        onChange={onDataChange}
+        onKeyDown={onKeyDown}
+        inputMode="none" // 소프트 키보드 방지
+        autoFocus
+        className="absolute opacity-0 pointer-events-none"
+        onBlur={() => setTimeout(() => hiddenInputRef.current?.focus(), 100)}
+      />
       {/* Header */}
       {/* <div
         onClick={() => navigate("/", { state: { cart } })}
