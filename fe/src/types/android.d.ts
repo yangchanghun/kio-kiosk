@@ -1,5 +1,5 @@
 interface CardBridge {
-  openCardApp: () => void;
+  openCardApp: (totalPrice: number) => void;
 }
 
 interface Window {

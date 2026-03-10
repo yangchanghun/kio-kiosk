@@ -45,6 +45,13 @@ const OrderComplete = () => {
     return () => clearInterval(returnRef.current!);
   }, [step, navigate]);
 
+  const handleCardPayment = () => {
+    if (window.AndroidBridge?.openCardApp) {
+      window.AndroidBridge.openCardApp(totalPrice.toString());
+    } else {
+      alert("Android Bridge 없음");
+    }
+  };
   const handleConfirmPayment = () => {
     if (window.AndroidBridge?.printReceipt) {
       try {
@@ -81,6 +88,16 @@ const OrderComplete = () => {
       }),
     );
   };
+
+  useEffect(() => {
+    window.onCardPaymentComplete = () => {
+      handleConfirmPayment();
+    };
+
+    return () => {
+      delete window.onCardPaymentComplete;
+    };
+  }, []);
 
   // ── 주문 요약 화면 ──────────────────────────────────────
   if (step === "summary") {
@@ -270,10 +287,10 @@ const OrderComplete = () => {
           </div> */}
 
           <button
-            onClick={handleConfirmPayment}
+            onClick={handleCardPayment}
             className="w-full py-4 rounded-full bg-black text-white border-2 border-primary text-primary font-black text-lg     focus:outline-none"
           >
-            확인
+            신용카드 결제
           </button>
           <button
             onClick={handleCancelCard}
