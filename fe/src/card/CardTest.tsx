@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function CardTest() {
   // 테스트용 주문 데이터
@@ -7,10 +7,13 @@ export default function CardTest() {
     { name: "카페라떼", price: 4000, quantity: 1 },
   ];
 
+  const [debug, setDebug] = useState("");
+
   const startCard = () => {
-    if (window.AndroidBridge?.openCardApp) {
-      window.AndroidBridge.openCardApp("1000");
+    if (window.CardBridge?.openCardApp) {
+      window.CardBridge.openCardApp("5000");
     } else {
+      setDebug("없음");
       alert("AndroidBridge 없음 (웹에서 실행 중)");
     }
   };
@@ -33,7 +36,7 @@ export default function CardTest() {
   return (
     <div style={{ padding: 40 }}>
       <h2>카드 + 영수증 테스트</h2>
-
+      <h1>디버그:{debug}</h1>
       <button
         onClick={startCard}
         style={{

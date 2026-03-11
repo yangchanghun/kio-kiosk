@@ -1,7 +1,7 @@
-interface CardBridge {
-  openCardApp: (totalPrice: number) => void;
-}
+// interface CardBridge {
+//   openCardApp: (totalPrice: number) => void;
+// }
 
-interface Window {
-  CardBridge?: CardBridge;
-}
+// interface Window {
+//   CardBridge?: CardBridge;
+// }
