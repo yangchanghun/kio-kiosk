@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTabs";
 import MenuCard from "../components/MenuCard";
 import QuantityModal from "../components/QuantityModal";
@@ -28,7 +28,7 @@ interface Product {
 }
 export default function TestButcherPage() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const id = "6";
   const location = useLocation();
   const imgSrc = location.state?.imgSrc || "";
   const { data, loading } = useSectionDetail(id);
