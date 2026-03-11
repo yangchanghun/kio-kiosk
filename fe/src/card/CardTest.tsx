@@ -11,7 +11,7 @@ export default function CardTest() {
 
   const startCard = () => {
     if (window.CardBridge?.openCardApp) {
-      window.CardBridge.openCardApp("5000");
+      window.CardBridge.openCardApp(5000);
     } else {
       setDebug("없음");
       alert("AndroidBridge 없음 (웹에서 실행 중)");

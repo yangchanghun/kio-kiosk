@@ -6,7 +6,7 @@ declare global {
       printReceipt?: (data: string) => void;
     };
     CardBridge?: {
-      openCardApp: (amount: string) => void;
+      openCardApp: (amount: number) => void;
     };
     onCardPaymentComplete?: () => void;
   }
