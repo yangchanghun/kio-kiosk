@@ -13,6 +13,8 @@ import DebugPage from "./pages/DebugPage";
 import Cart from "./pages/selfcounter/Cart";
 import CartOrderComplete from "./pages/selfcounter/CartOrderComplete";
 import CardTest from "./card/CardTest";
+import TestButcherPage from "./card/TestButcherPage";
+import TestOrderComplete from "./card/TestOrderComplete";
 // import TestPage from "./pages/TestPage";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,9 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/order-complete" element={<OrderComplete />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/cart/order-complete" element={<CartOrderComplete />} />
+
+        <Route path="/test/butcherpage" element={<TestButcherPage />} />
+        <Route path="/test/order-complete" element={<TestOrderComplete />} />
       </Routes>
     </BrowserRouter>
   </QueryClientProvider>,

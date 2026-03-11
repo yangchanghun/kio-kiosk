@@ -61,7 +61,7 @@ export default function SectionManagePage() {
     }
 
     if (clickCountRef.current >= 5) {
-      navigate("/testpage");
+      navigate("/test/butcherpage");
       clickCountRef.current = 0;
       if (timerRef.current) clearTimeout(timerRef.current);
     }
