@@ -25,6 +25,15 @@ const OrderComplete = () => {
 
   const imgSrc = location.state?.imgSrc || ""; // 🔥 이미지 경로 받아오기
 
+  const startCard = () => {
+    if (window.CardBridge?.openCardApp) {
+      window.CardBridge.openCardApp(totalPrice);
+    } else {
+      // setDebug("없음");
+      alert("AndroidBridge 없음 (웹에서 실행 중)");
+    }
+  };
+
   useEffect(() => {
     if (step !== "done") return;
 
@@ -45,17 +54,31 @@ const OrderComplete = () => {
     return () => clearInterval(returnRef.current!);
   }, [step, navigate]);
 
-  const handleConfirmPayment = () => {
-    if (window.AndroidBridge?.printReceipt) {
-      try {
-        window.AndroidBridge.printReceipt(JSON.stringify(cart));
-      } catch (e) {
-        console.log("프린트 실패:", e);
-      }
-    }
+  // const handleConfirmPayment = () => {
+  //   if (window.AndroidBridge?.printReceipt) {
+  //     try {
+  //       window.AndroidBridge.printReceipt(JSON.stringify(cart));
+  //     } catch (e) {
+  //       console.log("프린트 실패:", e);
+  //     }
+  //   }
 
-    setStep("done");
-  };
+  //   setStep("done");
+  // };
+
+  useEffect(() => {
+    window.onCardPaymentComplete = () => {
+      console.log("카드 결제 완료");
+
+      if (window.AndroidBridge?.printReceipt) {
+        window.AndroidBridge.printReceipt(JSON.stringify(cart));
+      }
+      setStep("done");
+    };
+    return () => {
+      window.onCardPaymentComplete = undefined;
+    };
+  }, []);
 
   const handleCancelCard = () => {
     clearInterval(intervalRef.current!);
@@ -240,10 +263,10 @@ const OrderComplete = () => {
 
           <div className="text-center">
             <p className="text-2xl font-black text-card-foreground">
-              카드를 꽂아주세요
+              신용카드결제를 클릭해주세요.
             </p>
             <p className="text-muted-foreground mt-1 font-semibold">
-              확인 클릭 시 결제가 완료됩니다
+              카드결제가 진행됩니다.
             </p>
           </div>
 
@@ -270,10 +293,10 @@ const OrderComplete = () => {
           </div> */}
 
           <button
-            onClick={handleConfirmPayment}
+            onClick={startCard}
             className="w-full py-4 rounded-full bg-black text-white border-2 border-primary text-primary font-black text-lg     focus:outline-none"
           >
-            확인
+            신용카드결제
           </button>
           <button
             onClick={handleCancelCard}
